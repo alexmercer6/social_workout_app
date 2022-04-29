@@ -1,4 +1,4 @@
-# social_workout_app
+# Grow - Baby Tracker
 
 ## Features
 -Track friends progress

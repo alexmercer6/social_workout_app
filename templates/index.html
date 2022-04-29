@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    {% if session['logged_in'] %}
+        <h1>Hello {{session['user']}}</h1>
+    {% endif %}
+    <h1>Welcome to Grow! Track your babies achievements and share memories along the way.</h1>
+    
+</section>
+
+{% endblock %}
