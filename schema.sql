@@ -1,6 +1,7 @@
-DROP TABLE IF EXISTS achievements;
+DROP TABLE IF EXISTS milestones;
 DROP TABLE IF EXISTS babies;
 DROP TABLE IF EXISTS users;
+
 
 
 CREATE TABLE users (
@@ -16,14 +17,39 @@ CREATE TABLE users (
 CREATE TABLE babies (
     baby_id SERIAL PRIMARY KEY,
     name TEXT,
-    birth_ddmmyyyy TEXT,
+    birth_date TEXT,
+    weight FLOAT,
+    height FLOAT,
     user_id INTEGER REFERENCES users (user_id)
     
 
 );
 
-CREATE TABLE achievements (
+CREATE TABLE milestones (
     id SERIAL PRIMARY KEY,
-    achievements TEXT,
+    milestone TEXT,
+    month_range INTEGER,
+    checked TEXT,
     baby_id INTEGER REFERENCES babies (baby_id)
 );
+
+-- CREATE TABLE milestones_3_6_months (
+--     id SERIAL PRIMARY KEY,
+--     milestone TEXT,
+--     checked TEXT,
+--     baby_id INTEGER REFERENCES babies (baby_id)
+-- );
+
+-- CREATE TABLE milestones_6_9_months (
+--     id SERIAL PRIMARY KEY,
+--     milestone TEXT,
+--     checked TEXT,
+--     baby_id INTEGER REFERENCES babies (baby_id)
+-- );
+
+-- CREATE TABLE milestones_9_12_months (
+--     id SERIAL PRIMARY KEY,
+--     milestone TEXT,
+--     checked TEXT,
+--     baby_id INTEGER REFERENCES babies (baby_id)
+-- );
