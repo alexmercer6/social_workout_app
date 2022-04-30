@@ -70,12 +70,22 @@ def signup():
 
 @app.route('/dashboard')
 def dashboard():
-    baby = sql_fetch('SELECT babies.name, babies.birth_ddmmyyyy, users.user_id FROM users INNER JOIN babies ON babies.user_id = users.user_id')
+    baby = sql_fetch('SELECT babies.name, babies.birth_date, users.user_id FROM users INNER JOIN babies ON babies.user_id = users.user_id')
     return render_template('dashboard.html', baby=baby)
 
 @app.route('/milestones')
 def milestones():
-    return render_template('milestones.html')
+    all_milestones = sql_fetch('SELECT id, milestone, checked, month_range FROM milestones')
+    return render_template('milestones.html', all_milestones=all_milestones)
+
+@app.route('/update_database_action', methods=['POST'])
+def update_database_action():
+    completed_checklist = request.form.getlist('check_box')
+    print(completed_checklist)
+    for id in completed_checklist:
+        sql_write('UPDATE milestones SET checked = True WHERE id = %s', [id])
+    
+    return redirect('/milestones')
 
 
 @app.route('/add_baby', methods=['GET', 'POST'])
