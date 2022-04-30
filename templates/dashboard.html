@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% for name, birthday, user_id in baby %}
+    <h1>{{name}}</h1>
+    <li>
+        {{birthday}}
+    </li>
+{% endfor %}
 {% endblock %}

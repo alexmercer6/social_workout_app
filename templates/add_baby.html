@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="/add_baby" method="POST">
+    <h2>Name:</h2>
+    <input type="text" name="name">
+    <h2>Birthday (ddmmyyyy):</h2>
+    <input type="text" name="birthdate">
+
+</form>
+{% endblock %}

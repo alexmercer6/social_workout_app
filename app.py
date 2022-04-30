@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask, request, render_template, session, redirect
 import bcrypt
 import os
@@ -34,19 +35,53 @@ def login():
 
         return redirect('/')
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    return render_template('logout.html')
+    if request.method == 'GET':
+        return render_template('logout.html')
+    
+    if request.method == 'POST':
+        session.clear()
+        return 'You have been logged out'
 
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if request.method == 'GET':
+
+        return render_template('signup.html')
+    
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        check_password = request.form.get('check_password')
+
+        if len(name) > 0 and len(email) > 0 and len(password) > 0 and password == check_password:
+            password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+            print(password)
+            sql_write('INSERT INTO users (name, email, password_hash) VALUES (%s, %s, %s)', [name, email, password_hash])
+            return redirect('/login')
+    
     return render_template('signup.html')
+        
+
+
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    baby = sql_fetch('SELECT babies.name, babies.birth_ddmmyyyy, users.user_id FROM users INNER JOIN babies ON babies.user_id = users.user_id')
+    return render_template('dashboard.html', baby=baby)
 
+@app.route('/milestones')
+def milestones():
+    return render_template('milestones.html')
+
+
+@app.route('/add_baby', methods=['GET', 'POST'])
+def add_baby():
+    if request.method == 'GET':
+        return render_template('add_baby.html')
  
 
 
