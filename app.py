@@ -23,12 +23,16 @@ def login():
         return render_template('login.html')
     
     if request.method == 'POST':
+        #retrieve email and password from user input
         user_email = request.form.get('email')
         user_password = request.form.get('password')
         
+        #check if they match in the database
         results = sql_fetch('SELECT user_id, name, email, password_hash FROM users')
         for user_id, name, email, password_hash in results:
+            #checks if paassword matches the hashed_password
             password_valid = bcrypt.checkpw(user_password.encode(), password_hash.encode())
+            #logs in and sets
             if user_email == email and password_valid:
                 session['logged_in'] = True
                 session['user'] = name
@@ -81,16 +85,20 @@ def dashboard():
 
 @app.route('/milestones', methods=['GET', 'POST'])
 def milestones():
-    baby_id = request.args.get('baby_id')
-    print(baby_id)
+    param_baby_id = int(request.args.get('baby_id'))
+    
     if request.method == 'GET':
         if session.get('logged_in'):
             user_id = session['id']
+            #access milestones table and completed milestone table
+            #The LEFT JOIN keyword returns all records from the left table (table1), and the matching records from the right table (table2)
+            #will still return the left table if no matches in the right
+            #will render the checkbox ticked if matches in the right table
+            #unique to each baby
+            all_milestones = sql_fetch('SELECT milestones.id, milestone, month_range, completed, baby_id FROM milestones LEFT JOIN completed_milestones ON milestones.id = completed_milestones.milestone_id')
             
-            all_milestones = sql_fetch('SELECT milestones.id, milestone, month_range, completed FROM milestones LEFT JOIN completed_milestones ON milestones.id = completed_milestones.milestone_id')
             
-            
-            return render_template('milestones.html', all_milestones=all_milestones,  baby_id=baby_id)
+            return render_template('milestones.html', all_milestones=all_milestones,  param_baby_id=param_baby_id)
         else:
             return redirect('/login')
     
@@ -99,10 +107,9 @@ def milestones():
         # print(completed_checklist)
         #how to access baby idea hmmm
         
-        print(baby_id)
         if len(completed_checklist) > 0:
             for id in completed_checklist:
-                sql_write('INSERT INTO completed_milestones (completed, milestone_id, baby_id) VALUES (%s, %s, %s )', ['True', id, baby_id])
+                sql_write('INSERT INTO completed_milestones (completed, milestone_id, baby_id) VALUES (%s, %s, %s )', ['True', id, param_baby_id])
         
             return redirect('/dashboard')
         else:

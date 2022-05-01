@@ -2,11 +2,11 @@
 
 {% block content %}
 <section>
-    <form action="/milestones?baby_id={{baby_id}}" method="POST">
+    <form action="/milestones?baby_id={{param_baby_id}}" method="POST">
     <h1>Month 0-3</h1>
-    {% for id, milestone, month_range, completed in all_milestones%}
+    {% for id, milestone, month_range, completed, baby_id in all_milestones%}
         
-        {% if completed and month_range == 3 %}
+        {% if completed and param_baby_id == baby_id and month_range == 3 %}
             <div>
                 <li>
                     <label for="">{{milestone}}</label>
@@ -28,10 +28,10 @@
 <section>
     
     <h1>Month 3-6</h1>
-    {% for id, milestone, month_range, complete in all_milestones%}
+    {% for id, milestone, month_range, complete, baby_id in all_milestones%}
         
 
-        {% if completed and month_range == 6 %}
+        {% if completed and param_baby_id == baby_id and month_range == 6 %}
             <div>
                 <li>
                     <label for="">{{milestone}}</label>
@@ -54,10 +54,10 @@
 <section>
     
     <h1>Month 6-9</h1>
-    {% for id, milestone, month_range, completed in all_milestones%}
+    {% for id, milestone, month_range, completed, baby_id in all_milestones%}
         
 
-        {% if completed and month_range == 9 %}
+        {% if completed and param_baby_id == baby_id and month_range == 9 %}
             <div>
                 <li>
                     <label for="">{{milestone}}</label>
@@ -78,10 +78,10 @@
 </section>
 <section>
     <h1>Month 9-12</h1>
-    {% for id, milestone, month_range, completed in all_milestones%}
+    {% for id, milestone, month_range, completed, baby_id in all_milestones%}
         
 
-        {% if completed and month_range == 12 %}
+        {% if completed and param_baby_id == baby_id and month_range == 12 %}
             <div>
                 <li>
                     <label for="">{{milestone}}</label>
