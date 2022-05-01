@@ -29,7 +29,13 @@ CREATE TABLE milestones (
     id SERIAL PRIMARY KEY,
     milestone TEXT,
     month_range INTEGER,
-    checked BOOLEAN,
+    checked BOOLEAN 
+);
+
+CREATE TABLE completed_milestones (
+    id SERIAL PRIMARY KEY,
+    completed BOOLEAN,
+    milestone_id INTEGER REFERENCES milestones(id),
     baby_id INTEGER REFERENCES babies (baby_id)
 );
 

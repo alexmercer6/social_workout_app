@@ -1,98 +1,103 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <section>
-    <form action="/update_database_action" method="POST">
+    <form action="/milestones?baby_id={{baby_id}}" method="POST">
     <h1>Month 0-3</h1>
-    {% for id, milestone, completed, month_range in all_milestones%}
-
-        {% if completed == False and month_range == 3 %}
+    {% for id, milestone, month_range, completed in all_milestones%}
+        
+        {% if completed and month_range == 3 %}
             <div>
                 <li>
                     <label for="">{{milestone}}</label>
-                    <input type="checkbox" name="check_box" value={{id}}>
+                    <input type="checkbox" checked name="check_box" value={{id}}>
                 </li>
             </div>
-        {% elif completed == True and month_range == 3 %}
+        {% elif month_range == 3 %}
         <div>
             <li>
                 <label for="">{{milestone}}</label>
-                <input type="checkbox" checked name="check_box" value="{{id}}">
+                <input type="checkbox"  name="check_box" value="{{id}}">
             </li>
         </div>
         {% endif %}
     {% endfor %}
+    
     
 </section>
 <section>
     
     <h1>Month 3-6</h1>
-    {% for id, milestone, completed, month_range in all_milestones%}
+    {% for id, milestone, month_range, complete in all_milestones%}
+        
 
-        {% if completed == False and month_range == 6 %}
+        {% if completed and month_range == 6 %}
             <div>
                 <li>
                     <label for="">{{milestone}}</label>
-                    <input type="checkbox" name="check_box" value="{{id}}">
+                    <input type="checkbox" checked name="check_box" value="{{id}}">
                 </li>
             </div>
-        {% elif completed == True and month_range == 6 %}
+        {% elif month_range == 6 %}
         <div>
             <li>
                 <label for="">{{milestone}}</label>
-                <input type="checkbox" checked name="check_box" value="{{id}}">
+                <input type="checkbox"  name="check_box" value="{{id}}">
             </li>
         </div>
         {% endif %}
     {% endfor %}
+    
 
     
 </section>
 <section>
     
     <h1>Month 6-9</h1>
-    {% for id, milestone, completed, month_range in all_milestones%}
+    {% for id, milestone, month_range, completed in all_milestones%}
+        
 
-        {% if completed == False and month_range == 9 %}
+        {% if completed and month_range == 9 %}
             <div>
                 <li>
                     <label for="">{{milestone}}</label>
-                    <input type="checkbox" name="check_box" value="{{id}}">
+                    <input type="checkbox" checked name="check_box" value="{{id}}">
                 </li>
             </div>
-        {% elif completed == True and month_range == 9 %}
+        {% elif month_range == 9 %}
         <div>
             <li>
                 <label for="">{{milestone}}</label>
-                <input type="checkbox" checked name="check_box" value="{{id}}">
+                <input type="checkbox" name="check_box" value="{{id}}">
             </li>
         </div>
         {% endif %}
     {% endfor %}
     
+    
 </section>
 <section>
     <h1>Month 9-12</h1>
-    <form action="/update_database_action" method="POST">
-    {% for id, milestone, completed, month_range in all_milestones%}
+    {% for id, milestone, month_range, completed in all_milestones%}
+        
 
-        {% if completed == False and month_range == 12 %}
+        {% if completed and month_range == 12 %}
             <div>
                 <li>
                     <label for="">{{milestone}}</label>
-                    <input type="checkbox" name="check_box" value="{{id}}">
+                    <input type="checkbox" checked name="check_box" value="{{id}}">
                 </li>
             </div>
-        {% elif completed == True and month_range == 12 %}
+        {% elif month_range == 12 %}
         <div>
             <li>
                 <label for="">{{milestone}}</label>
-                <input type="checkbox" checked name="check_box" value="{{id}}">
+                <input type="checkbox"  name="check_box" value="{{id}}">
             </li>
         </div>
         {% endif %}
     {% endfor %}
+    
     <input type="submit" value="Save">
     </form>
 </section>

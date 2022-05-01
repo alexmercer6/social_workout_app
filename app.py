@@ -32,6 +32,7 @@ def login():
             if user_email == email and password_valid:
                 session['logged_in'] = True
                 session['user'] = name
+                session['id'] = user_id
 
         return redirect('/')
 
@@ -42,7 +43,7 @@ def logout():
     
     if request.method == 'POST':
         session.clear()
-        return 'You have been logged out'
+        return redirect('/')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -70,22 +71,53 @@ def signup():
 
 @app.route('/dashboard')
 def dashboard():
-    baby = sql_fetch('SELECT babies.name, babies.birth_date, users.user_id FROM users INNER JOIN babies ON babies.user_id = users.user_id')
-    return render_template('dashboard.html', baby=baby)
+    if session.get('logged_in'):
+        user_id = session['id']
+        baby = sql_fetch('SELECT baby_id, name, birth_date, user_id FROM babies WHERE user_id = %s', [user_id])
+        
+        return render_template('dashboard.html', baby=baby)
+    else:
+        return redirect('/login')
 
-@app.route('/milestones')
+@app.route('/milestones', methods=['GET', 'POST'])
 def milestones():
-    all_milestones = sql_fetch('SELECT id, milestone, checked, month_range FROM milestones')
-    return render_template('milestones.html', all_milestones=all_milestones)
-
-@app.route('/update_database_action', methods=['POST'])
-def update_database_action():
-    completed_checklist = request.form.getlist('check_box')
-    print(completed_checklist)
-    for id in completed_checklist:
-        sql_write('UPDATE milestones SET checked = True WHERE id = %s', [id])
+    baby_id = request.args.get('baby_id')
+    print(baby_id)
+    if request.method == 'GET':
+        if session.get('logged_in'):
+            user_id = session['id']
+            
+            all_milestones = sql_fetch('SELECT milestones.id, milestone, month_range, completed FROM milestones LEFT JOIN completed_milestones ON milestones.id = completed_milestones.milestone_id')
+            
+            
+            return render_template('milestones.html', all_milestones=all_milestones,  baby_id=baby_id)
+        else:
+            return redirect('/login')
     
-    return redirect('/milestones')
+    if request.method == 'POST':
+        completed_checklist = request.form.getlist('check_box')
+        # print(completed_checklist)
+        #how to access baby idea hmmm
+        
+        print(baby_id)
+        if len(completed_checklist) > 0:
+            for id in completed_checklist:
+                sql_write('INSERT INTO milestones_completed (completed, milestone_id, baby_id) VALUES (%s, %s, %s, )', ['True', id, baby_id])
+        
+            return redirect('/dashboard')
+        else:
+            return redirect('/dashboard')
+            
+
+# @app.route('/update_database_action', methods=['POST'])
+# def update_database_action():
+#     completed_checklist = request.form.getlist('check_box')
+#     print(completed_checklist)
+#     #how to access baby idea hmmm
+#     for id in completed_checklist:
+#         sql_write('INSERT INTO milestones_completed (completed, milestone_id, baby_id) VALUES (%s, %s, %s, )', ['True', id,  ])
+    
+#     return redirect('/milestones')
 
 
 @app.route('/add_baby', methods=['GET', 'POST'])
