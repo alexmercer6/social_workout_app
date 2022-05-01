@@ -32,7 +32,7 @@ def login():
         for user_id, name, email, password_hash in results:
             #checks if paassword matches the hashed_password
             password_valid = bcrypt.checkpw(user_password.encode(), password_hash.encode())
-            #logs in and sets
+            #logs in and sets session data
             if user_email == email and password_valid:
                 session['logged_in'] = True
                 session['user'] = name
@@ -45,7 +45,9 @@ def logout():
     if request.method == 'GET':
         return render_template('logout.html')
     
+
     if request.method == 'POST':
+        #clears session data and logs the user out
         session.clear()
         return redirect('/')
 
@@ -63,8 +65,10 @@ def signup():
         check_password = request.form.get('check_password')
 
         if len(name) > 0 and len(email) > 0 and len(password) > 0 and password == check_password:
+            #hash the user password for security
             password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
             print(password)
+            #insert new users info into the database
             sql_write('INSERT INTO users (name, email, password_hash) VALUES (%s, %s, %s)', [name, email, password_hash])
             return redirect('/login')
     
@@ -77,6 +81,7 @@ def signup():
 def dashboard():
     if session.get('logged_in'):
         user_id = session['id']
+        #shows only the logged in users babies
         baby = sql_fetch('SELECT baby_id, name, birth_date, user_id FROM babies WHERE user_id = %s', [user_id])
         
         return render_template('dashboard.html', baby=baby)
@@ -104,8 +109,6 @@ def milestones():
     
     if request.method == 'POST':
         completed_checklist = request.form.getlist('check_box')
-        # print(completed_checklist)
-        #how to access baby idea hmmm
         
         if len(completed_checklist) > 0:
             for id in completed_checklist:
@@ -129,14 +132,18 @@ def milestones():
 
 @app.route('/add_baby', methods=['GET', 'POST'])
 def add_baby():
-    user_id = session['id']
-    if request.method == 'GET':
-        return render_template('add_baby.html')
-    if request.method == 'POST':
-        name = request.form.get('name')
-        birth_date = request.form.get('birthdate')
-        sql_write("INSERT INTO babies (name, birth_date, user_id) VALUES (%s, %s, %s)", [name, birth_date, user_id])
-        return redirect('/add_baby')
+    if session.get('logged_in'):
+
+        user_id = session['id']
+        if request.method == 'GET':
+            return render_template('add_baby.html')
+        if request.method == 'POST':
+            name = request.form.get('name')
+            birth_date = request.form.get('birthdate')
+            sql_write("INSERT INTO babies (name, birth_date, user_id) VALUES (%s, %s, %s)", [name, birth_date, user_id])
+            return redirect('/add_baby')
+    else:
+        return redirect('/login')
  
 
 
