@@ -102,7 +102,7 @@ def milestones():
         print(baby_id)
         if len(completed_checklist) > 0:
             for id in completed_checklist:
-                sql_write('INSERT INTO milestones_completed (completed, milestone_id, baby_id) VALUES (%s, %s, %s, )', ['True', id, baby_id])
+                sql_write('INSERT INTO completed_milestones (completed, milestone_id, baby_id) VALUES (%s, %s, %s )', ['True', id, baby_id])
         
             return redirect('/dashboard')
         else:
