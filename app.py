@@ -1,15 +1,25 @@
-from crypt import methods
+
 from flask import Flask, request, render_template, session, redirect
 import bcrypt
 import os
 import psycopg2
 from sql_functions import sql_fetch, sql_write
+import boto3
+from my_keys import access_key, secret_access_key
+from werkzeug.utils import secure_filename
+
+
+S3_URL = 'https://growappbucket.s3.ap-southeast-2.amazonaws.com/'
+UPLOAD_FOLDER = 'static/images/upload/'
+
+
 
 DB_URL = os.environ.get('DATABASE_URL', 'dbname=grow_app')
 SECRET_KEY = os.environ.get('SECRET_KEY', 'pretend secret key for testing')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
+
 
 
 
@@ -82,7 +92,7 @@ def dashboard():
     if session.get('logged_in'):
         user_id = session['id']
         #shows only the logged in users babies
-        baby = sql_fetch('SELECT baby_id, name, birth_date, user_id FROM babies WHERE user_id = %s', [user_id])
+        baby = sql_fetch('SELECT baby_id, name, birth_date, profile_picture, user_id FROM babies WHERE user_id = %s', [user_id])
         
         return render_template('dashboard.html', baby=baby)
     else:
@@ -144,6 +154,52 @@ def add_baby():
             return redirect('/add_baby')
     else:
         return redirect('/login')
+
+@app.route('/sleep_food')
+def sleep():
+    
+    return render_template('sleep_food.html')
+
+@app.route('/food_submit_action', methods=["POST"])
+def food_submit_action():
+    food_type = request.form.get('food_type')
+    eat_time = request.form.get('eat_time')
+    print(food_type, eat_time)
+    return redirect('/sleep_food')
+
+@app.route('/sleep_submit_action', methods=["POST"])
+def sleep_submit_action():
+    time_day = request.form.get('time')
+    hours = request.form.get('hours')
+    minutes = request.form.get('minutes')
+    print(time_day, hours, minutes)
+    return redirect('/sleep_food')
+
+
+
+@app.route('/upload_profile_picture', methods=['GET', 'POST'])
+def upload():
+    baby_id = request.args.get('baby_id')
+    print(baby_id)
+    if request.method == 'GET':
+        return render_template('profile_picture.html')
+
+    if request.method == 'POST':
+        #gets the image from form input
+        uploaded_image = request.files['image']
+        #saves the uploaded image to static folder
+        uploaded_image.save(UPLOAD_FOLDER + uploaded_image.filename)
+        # access the aws s3 storage bucket
+        s3_client = boto3.client('s3', aws_access_key_id = access_key, aws_secret_access_key = secret_access_key)
+        BUCKET_NAME = 'growappbucket'
+        # sets the key to access image
+        upload_file_key = str(session['id']) + '_' + session['user'] + '/' + str(baby_id) +  '_baby_id_' + uploaded_image.filename
+        s3_client.upload_file(UPLOAD_FOLDER + uploaded_image.filename, BUCKET_NAME, upload_file_key)  
+        
+        profile_picture_url = S3_URL + upload_file_key
+        sql_write('UPDATE babies SET profile_picture = %s WHERE baby_id = %s', [profile_picture_url, baby_id])
+        
+        return redirect('/dashboard')
  
 
 

@@ -2,6 +2,8 @@
 
 {% block content %}
 <form action="/add_baby" method="POST">
+    <h2>Avatar:</h2>
+    <input type="file">
     <h2>Name:</h2>
     <input type="text" name="name">
     <h2>Birthday (ddmmyyyy):</h2>
@@ -10,4 +12,6 @@
     <input type="submit" value="Submit">
 
 </form>
+
+
 {% endblock %}

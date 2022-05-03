@@ -2,13 +2,21 @@
 
 {% block content %}
 
-{% for id, name, birthday, user_id in baby %}
+{% for id, name, birthday, profile_picture, user_id in baby %}
     <h1>{{name}}</h1>
+    <img src="{{profile_picture}}" alt="">
     <li>
         {{birthday}}
     </li>
     <li>
         <a href="/milestones?baby_id={{id}}">Milestones</a>
     </li>
+    <li>
+        <a href="/sleep_food?baby_id={{id}}">Sleep/Food Tracker</a>
+    </li>
+    <li>
+        <a href="/upload_profile_picture?baby_id={{id}}">Change Profile Picture</a>
+    </li>
+    
 {% endfor %}
 {% endblock %}

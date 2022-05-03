@@ -1,0 +1,31 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Statement1",
+			"Principal": {},
+			"Effect": "Allow",
+			"Action": [],
+			"Resource": []
+		}
+	]
+}
+
+{
+  "Id": "Policy1397632521960",
+  "Statement": [
+    {
+      "Sid": "Stmt1397633323327",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::bucketnm/*",
+      "Principal": {
+        "AWS": [
+          "*"
+        ]
+      }
+    }
+  ]
+}
