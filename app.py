@@ -1,5 +1,5 @@
 
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect, url_for
 import bcrypt
 import os
 import psycopg2
@@ -148,32 +148,39 @@ def add_baby():
         if request.method == 'GET':
             return render_template('add_baby.html')
         if request.method == 'POST':
+            default_avatar = 'static/images/default_avatar.jpeg'
             name = request.form.get('name')
             birth_date = request.form.get('birthdate')
-            sql_write("INSERT INTO babies (name, birth_date, user_id) VALUES (%s, %s, %s)", [name, birth_date, user_id])
-            return redirect('/add_baby')
+            sql_write("INSERT INTO babies (name, birth_date, profile_picture, user_id) VALUES (%s, %s, %s, %s)", [name, birth_date, default_avatar, user_id])
+            return redirect('/dashboard')
     else:
         return redirect('/login')
 
 @app.route('/sleep_food')
 def sleep():
-    
-    return render_template('sleep_food.html')
+    baby_id = request.args.get('baby_id')
+    print(baby_id)
+    return render_template('sleep_food.html', baby_id=baby_id)
 
 @app.route('/food_submit_action', methods=["POST"])
 def food_submit_action():
+    baby_id = request.args.get('baby_id')
     food_type = request.form.get('food_type')
-    eat_time = request.form.get('eat_time')
-    print(food_type, eat_time)
-    return redirect('/sleep_food')
+    time_of_day = request.form.get('eat_time')
+    sql_write('INSERT INTO eating_habits(time_of_day, food_type, baby_id) VALUES (%s, %s, %s)', [time_of_day, food_type, baby_id])
+    return redirect('/dashboard')
 
 @app.route('/sleep_submit_action', methods=["POST"])
 def sleep_submit_action():
-    time_day = request.form.get('time')
+    baby_id = request.args.get('baby_id')
+    time_of_day = request.form.get('time')
     hours = request.form.get('hours')
     minutes = request.form.get('minutes')
-    print(time_day, hours, minutes)
-    return redirect('/sleep_food')
+    duration = str(hours) + 'hr(s) ' + str(minutes) + 'minute(s)'
+    sql_write('INSERT INTO sleeping_habits(time_of_day, duration, baby_id) VALUES (%s, %s, %s)', [time_of_day, duration, baby_id])
+
+    
+    return redirect('/dashboard')
 
 
 
@@ -182,7 +189,7 @@ def upload():
     baby_id = request.args.get('baby_id')
     print(baby_id)
     if request.method == 'GET':
-        return render_template('profile_picture.html')
+        return render_template('profile_picture.html', baby_id=baby_id)
 
     if request.method == 'POST':
         #gets the image from form input
@@ -198,6 +205,8 @@ def upload():
         
         profile_picture_url = S3_URL + upload_file_key
         sql_write('UPDATE babies SET profile_picture = %s WHERE baby_id = %s', [profile_picture_url, baby_id])
+        if os.path.exists(UPLOAD_FOLDER + uploaded_image.filename):
+            os.remove(UPLOAD_FOLDER + uploaded_image.filename)
         
         return redirect('/dashboard')
  
