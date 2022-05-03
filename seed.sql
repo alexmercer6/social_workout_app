@@ -5,7 +5,7 @@ INSERT INTO users(name, email, password_hash) VALUES ('Alex', 'alex.mercer6@hotm
 
 --baby
 
-INSERT INTO babies(name, birth_date, user_id) VALUES ('Finnley', '17/09/2020', '1');
+INSERT INTO babies(name, birth_date, profile_picture, user_id) VALUES ('Finnley', '17/09/2020','static/images/default_avatar.jpeg', '1');
 
 --milestones 0-3 months
 
