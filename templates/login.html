@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Log in</h1>
-<form action="/login" method="POST">
-    <h2>Email:</h2>
-    <input type="email" name="email">
-    <h2>Password:</h2>
-    <input type="password" name="password">
-    <br>
-    <input type="submit" value="submit">
-</form>
+<section class="bg-dark p-5">
+    <div class="container text-center ">
+        <h1 class=" text-center login-text">Log in</h1>
+        <form action="/login" method="POST" class="form-control bg-light p-5 my-4">
+            <!-- <h2><span class=" login-text">Email:</span> </h2> -->
+            <input type="email" name="email" class="form-control" placeholder="email">
+            <br>
+            <!-- <h2><span class="login-text">Password:</span> </h2> -->
+            <input type="password" name="password" placeholder="password" class="form-control">
+            <br>
+            <input type="submit" class="btn btn-large login-btn"value="Log in">
+        </form>
+    </div>
+</section>
+
 {% endblock %}

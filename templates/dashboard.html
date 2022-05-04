@@ -3,7 +3,7 @@
 {% block content %}
 <section class="bg-dark p-5">
     <div class="container">
-        <a class="add-baby-link"href="/add_baby">Add a baby</a>
+        
         <div class="d-md-flex justify-content-center">
             
 
@@ -30,12 +30,14 @@
 </section>
 <section class="bg-light p-5">
     <div class="container">
-        <div class="d-md-flex justify-content-between align-items-center">
-            <form action="/add_baby" method="POST">
-                <input type="text" name="name" placeholder="Baby's name">
-                <input type="date" name="birthdate">
+        <h3 class="text-center"> Add A Baby to Your Family</h3>
+        <div class="d-flex justify-content-center align-items-center">
+            
+            <form action="/add_baby" method="POST" class="form-control text-center">
+                <input type="text" class="form-control" name="name" placeholder="Baby's name">
+                <input type="date" class="form-control" name="birthdate">
                 <br>
-                <input type="submit" value="Submit">
+                <input type="submit" class="btn btn-dark btn-large submit-btn" type="button" value="Submit">
             
             </form>
         </div>

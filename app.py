@@ -145,10 +145,8 @@ def add_baby():
     if session.get('logged_in'):
 
         user_id = session['id']
-        if request.method == 'GET':
-            return render_template('add_baby.html')
         if request.method == 'POST':
-            default_avatar = 'static/images/default_avatar.jpeg'
+            default_avatar = 'static/images/baby_icon.png'
             name = request.form.get('name')
             birth_date = request.form.get('birthdate')
             split_date = birth_date.split('-')

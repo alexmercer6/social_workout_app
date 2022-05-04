@@ -4,12 +4,24 @@
         margin-right: auto !important;
     }
 }
-
+/* input {
+    margin: 10px;
+} */
+input:focus {
+    outline: none;
+}
 .add-baby-link {
     text-decoration: none;
     color: #38bbc2;
 }
 
+.login-text {
+    color: #38bbc2;
+}
+.login-btn {
+    background-color: #38bbc2;
+    margin: 10px;
+}
 .add-baby-link:hover {
     color: white;
 }
@@ -22,7 +34,16 @@
 .profile-pic {
     width: 100px;
     margin: 15px auto 5px auto;
+    border-radius: 6px;
     
+}
+.submit-btn {
+    background-color: #38bbc2 !important;
+    border: none;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+.submit-btn:hover {
+    color:black;
 }
 .home-img {
     border-radius: 10px;
