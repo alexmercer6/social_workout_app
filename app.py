@@ -151,6 +151,10 @@ def add_baby():
             default_avatar = 'static/images/default_avatar.jpeg'
             name = request.form.get('name')
             birth_date = request.form.get('birthdate')
+            split_date = birth_date.split('-')
+            split_date.reverse()
+            birth_date = '/'.join(split_date)
+            print(birth_date)
             sql_write("INSERT INTO babies (name, birth_date, profile_picture, user_id) VALUES (%s, %s, %s, %s)", [name, birth_date, default_avatar, user_id])
             return redirect('/dashboard')
     else:

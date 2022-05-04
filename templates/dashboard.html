@@ -30,15 +30,16 @@
 </section>
 <section class="bg-light p-5">
     <div class="container">
-        <form action="/add_baby" method="POST">
-            <h2>Name:</h2>
-            <input type="text" name="name">
-            <h2>Birthday (dd/mm/yyyy):</h2>
-            <input type="text" name="birthdate">
-            <br>
-            <input type="submit" value="Submit">
+        <div class="d-md-flex justify-content-between align-items-center">
+            <form action="/add_baby" method="POST">
+                <input type="text" name="name" placeholder="Baby's name">
+                <input type="date" name="birthdate">
+                <br>
+                <input type="submit" value="Submit">
+            
+            </form>
+        </div>
         
-        </form>
 
     </div>
     
