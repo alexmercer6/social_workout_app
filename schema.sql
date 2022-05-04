@@ -32,8 +32,7 @@ CREATE TABLE babies (
 CREATE TABLE milestones (
     id SERIAL PRIMARY KEY,
     milestone TEXT,
-    month_range INTEGER,
-    checked BOOLEAN 
+    month_range INTEGER
 );
 
 CREATE TABLE completed_milestones (

@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section>
-    {% if session['logged_in'] %}
-        <h1>Hello {{session['user']}}</h1>
-    {% endif %}
-    <h1>Welcome to Grow! Track your babies achievements and share memories along the way.</h1>
+<section class="bg-dark text-light p-5 text-center text-sm-start">
+    <div class="container">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <div>
+                {% if session['logged_in'] %}
+                <h1>Hello <span class="user-name">{{session['user']}}</span></h1>
+                {% endif %}
+                <p class="lead my-4">Welcome to Grow! Track your babies achievements and share memories along the way.</p>
+            </div>
+            <img src="/static/images/baby_mum.gif" class="image-fluid w-50 home-img"  alt="">
+            
+        </div>
+        
+    </div>
+    
     
 </section>
 

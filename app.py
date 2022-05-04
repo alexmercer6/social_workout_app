@@ -91,7 +91,7 @@ def signup():
 def dashboard():
     if session.get('logged_in'):
         user_id = session['id']
-        #shows only the logged in users babies
+        #shows only the logged in user's babies
         baby = sql_fetch('SELECT baby_id, name, birth_date, profile_picture, user_id FROM babies WHERE user_id = %s', [user_id])
         
         return render_template('dashboard.html', baby=baby)
@@ -158,9 +158,12 @@ def add_baby():
 
 @app.route('/sleep_food')
 def sleep():
-    baby_id = request.args.get('baby_id')
-    print(baby_id)
-    return render_template('sleep_food.html', baby_id=baby_id)
+    if session.get('logged_in'):
+        baby_id = request.args.get('baby_id')
+        print(baby_id)
+        return render_template('sleep_food.html', baby_id=baby_id)
+    else:
+        return redirect('/login')
 
 @app.route('/food_submit_action', methods=["POST"])
 def food_submit_action():
@@ -186,29 +189,32 @@ def sleep_submit_action():
 
 @app.route('/upload_profile_picture', methods=['GET', 'POST'])
 def upload():
-    baby_id = request.args.get('baby_id')
-    print(baby_id)
-    if request.method == 'GET':
-        return render_template('profile_picture.html', baby_id=baby_id)
+    if session.get('logged_in'):
+        baby_id = request.args.get('baby_id')
+        print(baby_id)
+        if request.method == 'GET':
+            return render_template('profile_picture.html', baby_id=baby_id)
 
-    if request.method == 'POST':
-        #gets the image from form input
-        uploaded_image = request.files['image']
-        #saves the uploaded image to static folder
-        uploaded_image.save(UPLOAD_FOLDER + uploaded_image.filename)
-        # access the aws s3 storage bucket
-        s3_client = boto3.client('s3', aws_access_key_id = access_key, aws_secret_access_key = secret_access_key)
-        BUCKET_NAME = 'growappbucket'
-        # sets the key to access image
-        upload_file_key = str(session['id']) + '_' + session['user'] + '/' + str(baby_id) +  '_baby_id_' + uploaded_image.filename
-        s3_client.upload_file(UPLOAD_FOLDER + uploaded_image.filename, BUCKET_NAME, upload_file_key)  
-        
-        profile_picture_url = S3_URL + upload_file_key
-        sql_write('UPDATE babies SET profile_picture = %s WHERE baby_id = %s', [profile_picture_url, baby_id])
-        if os.path.exists(UPLOAD_FOLDER + uploaded_image.filename):
-            os.remove(UPLOAD_FOLDER + uploaded_image.filename)
-        
-        return redirect('/dashboard')
+        if request.method == 'POST':
+            #gets the image from form input
+            uploaded_image = request.files['image']
+            #saves the uploaded image to static folder
+            uploaded_image.save(UPLOAD_FOLDER + uploaded_image.filename)
+            # access the aws s3 storage bucket
+            s3_client = boto3.client('s3', aws_access_key_id = access_key, aws_secret_access_key = secret_access_key)
+            BUCKET_NAME = 'growappbucket'
+            # sets the key to access image
+            upload_file_key = str(session['id']) + '_' + session['user'] + '/' + str(baby_id) +  '_baby_id_' + uploaded_image.filename
+            s3_client.upload_file(UPLOAD_FOLDER + uploaded_image.filename, BUCKET_NAME, upload_file_key)  
+            
+            profile_picture_url = S3_URL + upload_file_key
+            sql_write('UPDATE babies SET profile_picture = %s WHERE baby_id = %s', [profile_picture_url, baby_id])
+            if os.path.exists(UPLOAD_FOLDER + uploaded_image.filename):
+                os.remove(UPLOAD_FOLDER + uploaded_image.filename)
+            
+            return redirect('/dashboard')
+    else:
+        redirect('/login')
  
 
 

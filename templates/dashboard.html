@@ -1,22 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<section class="bg-dark p-5">
+    <div class="container">
+        <a class="add-baby-link"href="/add_baby">Add a baby</a>
+        <div class="d-md-flex justify-content-center">
+            
 
-{% for id, name, birthday, profile_picture, user_id in baby %}
-    <h1>{{name}}</h1>
-    <img src="{{profile_picture}}" alt="">
-    <li>
-        {{birthday}}
-    </li>
-    <li>
-        <a href="/milestones?baby_id={{id}}">Milestones</a>
-    </li>
-    <li>
-        <a href="/sleep_food?baby_id={{id}}">Sleep/Food Tracker</a>
-    </li>
-    <li>
-        <a href="/upload_profile_picture?baby_id={{id}}">Change Profile Picture</a>
-    </li>
+            {% for id, name, birthday, profile_picture, user_id in baby %}
+                <div class="card text-light m-3 baby-links" style="width: 18rem;">
+                    <img src="{{profile_picture}}" class="card-img-top profile-pic" alt="profile picture">
+                    <div class="card-body text-center">
+                        <h5>{{name}}</h5>
+                        <a href="/milestones?baby_id={{id}}" class="my-2 btn btn-light">Milestones</a>
+                        <a href="/sleep_food?baby_id={{id}}" class="my-2 btn btn-light">Sleep/Food Tracker</a>
+                        <a href="/upload_profile_picture?baby_id={{id}}" class="my-2 btn btn-light">Change Profile Picture</a>
+                    </div>
+        
+                </div>
+                    
+            {% endfor %}
+
+            
+            
+        </div>
+        
+    </div>
     
-{% endfor %}
+</section>
+<section class="bg-light p-5">
+    <div class="container">
+        <form action="/add_baby" method="POST">
+            <h2>Name:</h2>
+            <input type="text" name="name">
+            <h2>Birthday (dd/mm/yyyy):</h2>
+            <input type="text" name="birthdate">
+            <br>
+            <input type="submit" value="Submit">
+        
+        </form>
+
+    </div>
+    
+</section>
+
 {% endblock %}
