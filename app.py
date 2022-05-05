@@ -5,7 +5,6 @@ import os
 import psycopg2
 from sql_functions import sql_fetch, sql_write
 import boto3
-from my_keys import access_key, secret_access_key
 from werkzeug.utils import secure_filename
 
 
@@ -16,6 +15,9 @@ UPLOAD_FOLDER = 'static/images/upload/'
 
 DB_URL = os.environ.get('DATABASE_URL', 'dbname=grow_app')
 SECRET_KEY = os.environ.get('SECRET_KEY', 'pretend secret key for testing')
+
+AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
+AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -201,13 +203,13 @@ def upload():
             #gets the image from form input
             uploaded_image = request.files['image']
             #saves the uploaded image to static folder
-            uploaded_image.save(UPLOAD_FOLDER + uploaded_image.filename)
+            # uploaded_image.save(UPLOAD_FOLDER + uploaded_image.filename)
             # access the aws s3 storage bucket
-            s3_client = boto3.client('s3', aws_access_key_id = access_key, aws_secret_access_key = secret_access_key)
+            s3_client = boto3.client('s3', aws_access_key_id = AWS_ACCESS_KEY, aws_secret_access_key = AWS_SECRET_KEY)
             BUCKET_NAME = 'growappbucket'
             # sets the key to access image
             upload_file_key = str(session['id']) + '_' + session['user'] + '/' + str(baby_id) +  '_baby_id_' + uploaded_image.filename
-            s3_client.upload_file(UPLOAD_FOLDER + uploaded_image.filename, BUCKET_NAME, upload_file_key)  
+            s3_client.upload_file(uploaded_image.filename, BUCKET_NAME, upload_file_key)  
             
             profile_picture_url = S3_URL + upload_file_key
             sql_write('UPDATE babies SET profile_picture = %s WHERE baby_id = %s', [profile_picture_url, baby_id])
