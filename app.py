@@ -180,7 +180,7 @@ def sleep():
             nap_avg = total / len(nap_time)
             nap_avg_hrs = round(nap_avg / 60, 2)
         else:
-            nap_avg = "No sleep recorded yet"
+            nap_avg_hrs = "No sleep recorded yet"
 
 
         
