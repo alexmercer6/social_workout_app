@@ -17,12 +17,12 @@ DB_URL = os.environ.get('DATABASE_URL', 'dbname=grow_app')
 SECRET_KEY = os.environ.get('SECRET_KEY', 'pretend secret key for testing')
 
 AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
-AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
+AWS_ACCESS_SECRET_KEY = os.environ.get('AWS_ACCESS_SECRET_KEY')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['AWS_ACCESS_KEY'] = AWS_ACCESS_KEY
-app.config['AWS_ACCESS_SECRET_KEY'] = AWS_SECRET_KEY
+app.config['AWS_ACCESS_SECRET_KEY'] = AWS_ACCESS_SECRET_KEY
 
 
 
