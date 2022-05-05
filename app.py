@@ -166,11 +166,25 @@ def add_baby():
 @app.route('/sleep_food')
 def sleep():
     if session.get('logged_in'):
-        param_baby_id = int(request.args.get('baby_id'))
+        user_id = session.get('id')
+        param_baby_id = request.args.get('baby_id')
         
-        eating_habits = sql_fetch('SELECT date, time_of_day, food_type, baby_id FROM eating_habits ORDER BY date DESC')
-        sleeping_habits = sql_fetch('SELECT date, time_of_day, duration, baby_id FROM sleeping_habits ORDER BY date DESC')
-        return render_template('sleep_food.html', param_baby_id=param_baby_id, eating_habits=eating_habits, sleeping_habits=sleeping_habits)
+        eating_habits = sql_fetch('SELECT date, time_of_day, food_type, eating_habits.baby_id FROM eating_habits INNER JOIN babies ON babies.baby_id=eating_habits.baby_id WHERE eating_habits.baby_id=%s and babies.user_id=%s', [param_baby_id, user_id])
+        nap_time = sql_fetch('SELECT duration_mins FROM sleeping_habits WHERE baby_id=%s', [param_baby_id])
+        print(nap_time)
+    
+        if len(nap_time) > 0:
+            total = 0
+            for nap in nap_time:
+                total += nap[0]
+            nap_avg = total / len(nap_time)
+            nap_avg_hrs = round(nap_avg / 60, 2)
+        else:
+            nap_avg = "No sleep recorded yet"
+
+
+        
+        return render_template('sleep_food.html', param_baby_id=param_baby_id, eating_habits=eating_habits, nap_avg_hrs=nap_avg_hrs)
     else:
         return redirect('/login')
 
@@ -181,7 +195,7 @@ def food_submit_action():
     time_of_day = request.form.get('eat_time')
     date = request.form.get('food_date')
     sql_write('INSERT INTO eating_habits(time_of_day, food_type, baby_id, date) VALUES (%s, %s, %s, %s)', [time_of_day, food_type, baby_id, date])
-    return redirect('/sleep_food')
+    return redirect('/dashboard')
 
 @app.route('/sleep_submit_action', methods=["POST"])
 def sleep_submit_action():
@@ -189,12 +203,14 @@ def sleep_submit_action():
     time_of_day = request.form.get('time')
     hours = request.form.get('hours')
     minutes = request.form.get('minutes')
+    total_minutes = (int(hours)*60) + int(minutes)
+    print(total_minutes)
     date = request.form.get('sleep_date')
-    duration = str(hours) + 'hr(s) ' + str(minutes) + 'minute(s)'
-    sql_write('INSERT INTO sleeping_habits(time_of_day, duration, baby_id, date) VALUES (%s, %s, %s, %s)', [time_of_day, duration, baby_id, date])
+    
+    sql_write('INSERT INTO sleeping_habits(time_of_day, duration_mins, baby_id, date) VALUES (%s, %s, %s, %s)', [time_of_day, total_minutes, baby_id, date])
 
     
-    return redirect('/sleep_food')
+    return redirect('/dashboard')
 
 
 

@@ -47,7 +47,7 @@ CREATE TABLE sleeping_habits (
     id SERIAL PRIMARY KEY,
     time_of_day TEXT,
     date TEXT,
-    duration TEXT,
+    duration_mins INTEGER,
     baby_id INTEGER REFERENCES babies (baby_id)
 
 );

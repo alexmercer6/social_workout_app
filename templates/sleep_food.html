@@ -40,14 +40,9 @@
 <section>
     <div>
         <h1>Sleeping Habits</h1>
-        {% for date, time_of_day, duration, baby_id in sleeping_habits %}
-            
-            {% if baby_id == param_baby_id %}
-                <h2>{{date}}</h2>
-                <li>{{time_of_day}}</li>
-                <li>{{duration}}</li>
-            {% endif %}
-        {% endfor %}
+
+        <h3>Average sleep is: {{nap_avg_hrs}} hours</h3>
+
     </div>
     <div>
         <h1>Eating Habits</h1>
