@@ -17,12 +17,12 @@ DB_URL = os.environ.get('DATABASE_URL', 'dbname=grow_app')
 SECRET_KEY = os.environ.get('SECRET_KEY', 'pretend secret key for testing')
 
 AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
-AWS_ACCESS_SECRET_KEY = os.environ.get('AWS_ACCESS_SECRET_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['AWS_ACCESS_KEY'] = AWS_ACCESS_KEY
-app.config['AWS_ACCESS_SECRET_KEY'] = AWS_ACCESS_SECRET_KEY
+app.config['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
 
 
 
@@ -213,7 +213,7 @@ def upload():
             # uploaded_image.save(UPLOAD_FOLDER + uploaded_image.filename)
             # UPLOAD_FOLDER + 
             # access the aws s3 storage bucket
-            s3_client = boto3.client('s3', aws_access_key_id = AWS_ACCESS_KEY, aws_secret_access_key = AWS_SECRET_KEY)
+            s3_client = boto3.client('s3', aws_access_key_id = AWS_ACCESS_KEY, aws_secret_access_key = AWS_SECRET_ACCESS_KEY)
             BUCKET_NAME = 'growappbucket'
             # sets the key to access image
             upload_file_key = str(session['id']) + '_' + session['user'] + '/' + str(baby_id) +  '_baby_id_' + uploaded_image.filename
