@@ -5,6 +5,7 @@
     }
 }
 
+
 .begin-collapsed {
     height: 0;
 }
@@ -80,4 +81,8 @@ input:focus {
 }
 .checkbox {
     accent-color: #abe2e2;
+}
+
+#uploaded {
+    width: 100px;
 }

@@ -21,6 +21,9 @@ AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
+app.config['AWS_ACCESS_KEY'] = AWS_ACCESS_KEY
+app.config['AWS_ACCESS_SECRET_KEY'] = AWS_SECRET_KEY
+
 
 
 
@@ -163,9 +166,11 @@ def add_baby():
 @app.route('/sleep_food')
 def sleep():
     if session.get('logged_in'):
-        baby_id = request.args.get('baby_id')
-        print(baby_id)
-        return render_template('sleep_food.html', baby_id=baby_id)
+        param_baby_id = int(request.args.get('baby_id'))
+        
+        eating_habits = sql_fetch('SELECT date, time_of_day, food_type, baby_id FROM eating_habits ORDER BY date DESC')
+        sleeping_habits = sql_fetch('SELECT date, time_of_day, duration, baby_id FROM sleeping_habits ORDER BY date DESC')
+        return render_template('sleep_food.html', param_baby_id=param_baby_id, eating_habits=eating_habits, sleeping_habits=sleeping_habits)
     else:
         return redirect('/login')
 
@@ -174,8 +179,9 @@ def food_submit_action():
     baby_id = request.args.get('baby_id')
     food_type = request.form.get('food_type')
     time_of_day = request.form.get('eat_time')
-    sql_write('INSERT INTO eating_habits(time_of_day, food_type, baby_id) VALUES (%s, %s, %s)', [time_of_day, food_type, baby_id])
-    return redirect('/dashboard')
+    date = request.form.get('food_date')
+    sql_write('INSERT INTO eating_habits(time_of_day, food_type, baby_id, date) VALUES (%s, %s, %s, %s)', [time_of_day, food_type, baby_id, date])
+    return redirect('/sleep_food')
 
 @app.route('/sleep_submit_action', methods=["POST"])
 def sleep_submit_action():
@@ -183,11 +189,12 @@ def sleep_submit_action():
     time_of_day = request.form.get('time')
     hours = request.form.get('hours')
     minutes = request.form.get('minutes')
+    date = request.form.get('sleep_date')
     duration = str(hours) + 'hr(s) ' + str(minutes) + 'minute(s)'
-    sql_write('INSERT INTO sleeping_habits(time_of_day, duration, baby_id) VALUES (%s, %s, %s)', [time_of_day, duration, baby_id])
+    sql_write('INSERT INTO sleeping_habits(time_of_day, duration, baby_id, date) VALUES (%s, %s, %s, %s)', [time_of_day, duration, baby_id, date])
 
     
-    return redirect('/dashboard')
+    return redirect('/sleep_food')
 
 
 

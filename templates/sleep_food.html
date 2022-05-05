@@ -6,12 +6,14 @@
         <div class="row text-center">
             <div class="col">
                 <h1 class="food-sleep">Sleep</h1>
-                <form action="/sleep_submit_action?baby_id={{baby_id}}" method="POST" class="form-control bg-dark">
+                <form action="/sleep_submit_action?baby_id={{param_baby_id}}" method="POST" class="form-control bg-dark">
+                    <h2 class="food-sleep">Date:</h2>
+                    <input type="date" name="sleep_date" class="form-control" required>
                     <h2 class="food-sleep">Time of day:</h2>
-                    <input type="time" name="time" class="form-control" >
+                    <input type="time" name="time" class="form-control" required>
                     <h2 class="food-sleep">Duration of sleep:</h2>
-                    <input type="number" name="hours" placeholder="hours" class="form-control">
-                    <input type="number" name="minutes" placeholder="minutes" class="form-control">
+                    <input type="number" name="hours" placeholder="hours" class="form-control w-50" required>
+                    <input type="number" name="minutes" placeholder="minutes" class="form-control w-50" required>
                     <br>
                     <input type="submit" value="submit">
                 </form>
@@ -20,17 +22,43 @@
 
             
             <h1 class="food-sleep">Food</h1>
-            <form action="/food_submit_action?baby_id={{baby_id}}" method="POST" class="form-control bg-dark">
+            <form action="/food_submit_action?baby_id={{param_baby_id}}" method="POST" class="form-control bg-dark">
+                <h2 class="food-sleep">Date:</h2>
+                <input type="date" name="food_date" class="form-control" required>
                 <h2 class="food-sleep">Time of day:</h2>
-                <input type="time" name="eat_time" class="form-control">
+                <input type="time" name="eat_time" class="form-control" required>
                 <h2 class="food-sleep">Food type:</h2>
-                <input type="text" name="food_type" class="form-control">
+                <input type="text" name="food_type" class="form-control" required>
                 <br>
                 <input type="submit" value="submit">
             </form>
         </div>
         </div>
         
+    </div>
+</section>
+<section>
+    <div>
+        <h1>Sleeping Habits</h1>
+        {% for date, time_of_day, duration, baby_id in sleeping_habits %}
+            
+            {% if baby_id == param_baby_id %}
+                <h2>{{date}}</h2>
+                <li>{{time_of_day}}</li>
+                <li>{{duration}}</li>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div>
+        <h1>Eating Habits</h1>
+        {% for date, time_of_day, food_type, baby_id in eating_habits %}
+            
+            {% if baby_id == param_baby_id %}
+                <h2>{{date}}</h2>
+                <li>{{time_of_day}}</li>
+                <li>{{food_type}}</li>
+            {% endif %}
+        {% endfor %}
     </div>
 </section>
 

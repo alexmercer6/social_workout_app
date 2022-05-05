@@ -46,6 +46,7 @@ CREATE TABLE completed_milestones (
 CREATE TABLE sleeping_habits (
     id SERIAL PRIMARY KEY,
     time_of_day TEXT,
+    date TEXT,
     duration TEXT,
     baby_id INTEGER REFERENCES babies (baby_id)
 
@@ -54,6 +55,7 @@ CREATE TABLE sleeping_habits (
 CREATE TABLE eating_habits (
     id SERIAL PRIMARY KEY,
     time_of_day TEXT,
+    date TEXT,
     food_type TEXT,
     baby_id INTEGER REFERENCES babies (baby_id)
 );
