@@ -210,13 +210,14 @@ def upload():
             #gets the image from form input
             uploaded_image = request.files['image']
             #saves the uploaded image to static folder
-            uploaded_image.save(UPLOAD_FOLDER + uploaded_image.filename)
+            # uploaded_image.save(UPLOAD_FOLDER + uploaded_image.filename)
+            # UPLOAD_FOLDER + 
             # access the aws s3 storage bucket
             s3_client = boto3.client('s3', aws_access_key_id = AWS_ACCESS_KEY, aws_secret_access_key = AWS_SECRET_KEY)
             BUCKET_NAME = 'growappbucket'
             # sets the key to access image
             upload_file_key = str(session['id']) + '_' + session['user'] + '/' + str(baby_id) +  '_baby_id_' + uploaded_image.filename
-            s3_client.upload_file(UPLOAD_FOLDER + uploaded_image.filename, BUCKET_NAME, upload_file_key)  
+            s3_client.upload_file(uploaded_image.filename, BUCKET_NAME, upload_file_key)  
             
             profile_picture_url = S3_URL + upload_file_key
             sql_write('UPDATE babies SET profile_picture = %s WHERE baby_id = %s', [profile_picture_url, baby_id])
