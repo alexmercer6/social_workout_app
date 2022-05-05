@@ -1,123 +1,126 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section>
-    <div class="container">
+<section class="bg-dark p-5">
+<div class="container">
 
-    
-    <div class="">
+    <!-- <div class="row g-4"> -->
 
-    
+    <div class="card p-5" id="month-3">
+
+        
         <form action="/milestones?baby_id={{param_baby_id}}" method="POST">
         <h1>Month 0-3</h1>
+        <ul class="list-group">
         {% for id, milestone, month_range, completed, baby_id in all_milestones%}
             
             {% if completed and param_baby_id == baby_id and month_range == 3 %}
                 <div>
-                    <li>
+                    <li class="list-group-item">
                         <label for="">{{milestone}}</label>
-                        <input type="checkbox" checked name="check_box" value={{id}}>
+                        <input type="checkbox" checked name="check_box" value={{id}} class="checkbox">
                     </li>
                 </div>
             {% elif month_range == 3 %}
             <div>
-                <li>
+                <li class="list-group-item">
                     <label for="">{{milestone}}</label>
-                    <input type="checkbox"  name="check_box" value="{{id}}">
+                    <input type="checkbox"  name="check_box" value="{{id}}" class="checkbox">
                 </li>
             </div>
             {% endif %}
         {% endfor %}
+    </ul>
     </div>
     
-    
-</section>
-<section>
-    <div class="">
+
+    <div class="card p-5" id="month-6">
 
     
     
         <h1>Month 3-6</h1>
+        <ul class="list-group">
         {% for id, milestone, month_range, complete, baby_id in all_milestones%}
             
 
             {% if completed and param_baby_id == baby_id and month_range == 6 %}
                 <div>
-                    <li>
+                    <li class="list-group-item">
                         <label for="">{{milestone}}</label>
-                        <input type="checkbox" checked name="check_box" value="{{id}}">
+                        <input type="checkbox" checked name="check_box" value="{{id}}" class="checkbox">
                     </li>
                 </div>
             {% elif month_range == 6 %}
             <div>
-                <li>
+                <li class="list-group-item">
                     <label for="">{{milestone}}</label>
-                    <input type="checkbox"  name="check_box" value="{{id}}">
+                    <input type="checkbox"  name="check_box" value="{{id}}" class="checkbox">
                 </li>
             </div>
             {% endif %}
         {% endfor %}
+        </ul>
     </div>
     
 
     
-</section>
-<section>
-    <div class="">
+    <div class="card p-5" id="month-9">
 
     
         <h1>Month 6-9</h1>
+        <ul class="list-group">
         {% for id, milestone, month_range, completed, baby_id in all_milestones%}
             
 
             {% if completed and param_baby_id == baby_id and month_range == 9 %}
                 <div>
-                    <li>
+                    <li class="list-group-item">
                         <label for="">{{milestone}}</label>
-                        <input type="checkbox" checked name="check_box" value="{{id}}">
+                        <input type="checkbox" checked name="check_box" value="{{id}}" class="checkbox">
                     </li>
                 </div>
             {% elif month_range == 9 %}
             <div>
-                <li>
+                <li class="list-group-item">
                     <label for="">{{milestone}}</label>
-                    <input type="checkbox" name="check_box" value="{{id}}">
+                    <input type="checkbox" name="check_box" value="{{id}}" class="checkbox">
                 </li>
             </div>
             {% endif %}
         {% endfor %}
+        </ul>
     </div>
     
     
-</section>
-<section>
-    <div class="">
+    <div class="card p-5" id="month-12">
 
-    
+    <ul class="list-group">    
     <h1>Month 9-12</h1>
     {% for id, milestone, month_range, completed, baby_id in all_milestones%}
         
 
         {% if completed and param_baby_id == baby_id and month_range == 12 %}
             <div>
-                <li>
+                <li class="list-group-item">
                     <label for="">{{milestone}}</label>
-                    <input type="checkbox" checked name="check_box" value="{{id}}">
+                    <input type="checkbox" checked name="check_box" value="{{id}}" class="checkbox">
                 </li>
             </div>
         {% elif month_range == 12 %}
         <div>
-            <li>
+            <li class="list-group-item">
                 <label for="">{{milestone}}</label>
-                <input type="checkbox"  name="check_box" value="{{id}}">
+                <input type="checkbox"  name="check_box" value="{{id}}" class="checkbox">
             </li>
         </div>
         {% endif %}
     {% endfor %}
-    
+    </ul>
+</div>
     <input type="submit" value="Save">
     </form>
-    </div>
+    
+</div>
 </div>
 </section>
 

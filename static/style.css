@@ -4,6 +4,10 @@
         margin-right: auto !important;
     }
 }
+
+.begin-collapsed {
+    height: 0;
+}
 /* input {
     margin: 10px;
 } */
@@ -51,6 +55,9 @@ input:focus {
 .user-name {
     color: #f5b8c3;
 }
+.food-sleep {
+    color: #fbdbdb;
+}
 
 #logout-btn {
     border: none;
@@ -65,4 +72,12 @@ input:focus {
 
 #logout-btn:hover {
     color: rgb(199, 196, 196);;
+}
+
+#month-3, #month-6, #month-9, #month-12 {
+    background-color: #abe2e2;
+    margin: 20px;
+}
+.checkbox {
+    accent-color: #abe2e2;
 }

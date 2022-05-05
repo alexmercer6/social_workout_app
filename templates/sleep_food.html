@@ -1,24 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<section class="bg-dark p-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col">
+                <h1 class="food-sleep">Sleep</h1>
+                <form action="/sleep_submit_action?baby_id={{baby_id}}" method="POST" class="form-control bg-dark">
+                    <h2 class="food-sleep">Time of day:</h2>
+                    <input type="time" name="time" class="form-control" >
+                    <h2 class="food-sleep">Duration of sleep:</h2>
+                    <input type="number" name="hours" placeholder="hours" class="form-control">
+                    <input type="number" name="minutes" placeholder="minutes" class="form-control">
+                    <br>
+                    <input type="submit" value="submit">
+                </form>
+            </div>
+            <div class="col">
 
-<h1>Sleep</h1>
-<form action="/sleep_submit_action?baby_id={{baby_id}}" method="POST">
-    <h2>Time of day:</h2>
-    <input type="time" name="time" >
-    <h2>Duration of sleep:</h2>
-    <input type="number" name="hours" placeholder="hours">
-    <input type="number" name="minutes" placeholder="minutes">
-    <br>
-    <input type="submit" value="submit">
-</form>
-<h1>Food</h1>
-<form action="/food_submit_action?baby_id={{baby_id}}" method="POST">
-    <h2>Time of day:</h2>
-    <input type="time" name="eat_time">
-    <h2>Food type:</h2>
-    <input type="text" name="food_type">
-    <br>
-    <input type="submit" value="submit">
-</form>
+            
+            <h1 class="food-sleep">Food</h1>
+            <form action="/food_submit_action?baby_id={{baby_id}}" method="POST" class="form-control bg-dark">
+                <h2 class="food-sleep">Time of day:</h2>
+                <input type="time" name="eat_time" class="form-control">
+                <h2 class="food-sleep">Food type:</h2>
+                <input type="text" name="food_type" class="form-control">
+                <br>
+                <input type="submit" value="submit">
+            </form>
+        </div>
+        </div>
+        
+    </div>
+</section>
+
 {% endblock %}
