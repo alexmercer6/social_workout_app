@@ -217,7 +217,7 @@ def upload():
             BUCKET_NAME = 'growappbucket'
             # sets the key to access image
             upload_file_key = str(session['id']) + '_' + session['user'] + '/' + str(baby_id) +  '_baby_id_' + uploaded_image.filename
-            s3_client.upload_file(uploaded_image.filename, BUCKET_NAME, upload_file_key)  
+            s3_client.upload_fileobj(uploaded_image, BUCKET_NAME, upload_file_key)  
             
             profile_picture_url = S3_URL + upload_file_key
             sql_write('UPDATE babies SET profile_picture = %s WHERE baby_id = %s', [profile_picture_url, baby_id])
