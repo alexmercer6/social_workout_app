@@ -5,7 +5,27 @@
     }
 }
 
-
+.g {
+    color: #38bbc2;
+}
+.r {
+    color: #abe2e2;
+}
+.o {
+    color: #fbdbdb;
+}
+.w {
+    color: #f3849b;
+}
+.file-btn {
+    border: 2px solid black;
+}
+.file-container {
+    background-color: #f5b8c3;
+}
+.file-input {
+    background-color: #f5b8c3 !important;
+}
 .begin-collapsed {
     height: 0;
 }

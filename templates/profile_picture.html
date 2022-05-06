@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form action="/upload_profile_picture?baby_id={{baby_id}}" method="POST" enctype="multipart/form-data">
-    <input type="file" name="image"  id="img-input">
-    <img id="uploaded" src="#" alt="">
-    <input type="submit">
-</form>
+<section class="bg-dark py-5">
+  <div class="container text-center py-5 file-container">
+    <form action="/upload_profile_picture?baby_id={{baby_id}}" method="POST" enctype="multipart/form-data" class="py-5 form-control-file bg-light file-input">
+      <input type="file" name="image"  id="img-input" class="btn btn-large file-btn">
+      <img id="uploaded" src="#" alt="" >
+      <input type="submit">
+  </form>
+  </div>
+</section>
 
 <script>
     imgInput = document.getElementById('img-input')
