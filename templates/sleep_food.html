@@ -12,8 +12,12 @@
                     <h2 class="food-sleep">Time of day:</h2>
                     <input type="time" name="time" class="form-control" required>
                     <h2 class="food-sleep">Duration of sleep:</h2>
-                    <input type="number" name="hours" placeholder="hours" class="form-control w-50" required>
-                    <input type="number" name="minutes" placeholder="minutes" class="form-control w-50" required>
+                    <div class="input-group">
+                        <input type="number" name="hours" placeholder="hours" class="form-control" required>
+                        <span class="input-group-addon">:</span>
+                        <input type="number" name="minutes" placeholder="minutes" class="form-control" required>
+                    </div>
+                    
                     <br>
                     <input type="submit" value="submit">
                 </form>
@@ -37,14 +41,14 @@
         
     </div>
 </section>
-<section>
-    <div>
+<section class="bg-light py-5">
+    <div class="container">
         <h1>Sleeping Habits</h1>
 
         <h3>Average sleep is: {{nap_avg_hrs}} hours</h3>
 
     </div>
-    <div>
+    <!-- <div class="container">
         <h1>Eating Habits</h1>
         {% for date, time_of_day, food_type, baby_id in eating_habits %}
             
@@ -54,7 +58,7 @@
                 <li>{{food_type}}</li>
             {% endif %}
         {% endfor %}
-    </div>
+    </div> -->
 </section>
 
 {% endblock %}
