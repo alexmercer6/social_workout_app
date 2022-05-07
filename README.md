@@ -11,9 +11,12 @@
 Try Grow [Here](https://mysterious-waters-13860.herokuapp.com/)
 ![grow_app_gif](https://user-images.githubusercontent.com/96599667/167231081-ac9c034d-e280-4a90-84eb-0850538051bc.gif)
 
-## Technologies
+## Technologies/Languages
 - Python
 - Javascript
+- HTML
+- Jinja
+- PostgresSQL
 - AWS S3
 - Flask
 - Boostrap 5
