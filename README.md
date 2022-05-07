@@ -26,3 +26,11 @@ Try Grow [Here](https://mysterious-waters-13860.herokuapp.com/)
 - Add social posts (images/text)
 - Add categories for days for food/sleep
 - Personalise color theme
+
+## Installation
+
+## AWS S3
+- Set up an AWS S3 account
+- Creat a unique bucket name
+- Create an IAM user
+- Create an access key and secret access and store it in your .env file
