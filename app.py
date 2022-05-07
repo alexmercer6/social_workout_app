@@ -169,9 +169,11 @@ def sleep():
         user_id = session.get('id')
         param_baby_id = request.args.get('baby_id')
         
-        eating_habits = sql_fetch('SELECT date, time_of_day, food_type, eating_habits.baby_id FROM eating_habits INNER JOIN babies ON babies.baby_id=eating_habits.baby_id WHERE eating_habits.baby_id=%s and babies.user_id=%s', [param_baby_id, user_id])
+        eating_habits = sql_fetch('SELECT date, time_of_day, food_type, eating_habits.baby_id FROM eating_habits INNER JOIN babies ON babies.baby_id=eating_habits.baby_id WHERE eating_habits.baby_id=%s and babies.user_id=%s ORDER BY eating_habits.date, eating_habits.time_of_day DESC LIMIT 1', [param_baby_id, user_id])
         nap_time = sql_fetch('SELECT duration_mins FROM sleeping_habits WHERE baby_id=%s', [param_baby_id])
         print(nap_time)
+        print(eating_habits)
+
     
         if len(nap_time) > 0:
             total = 0

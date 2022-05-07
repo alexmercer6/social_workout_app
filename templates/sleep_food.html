@@ -48,6 +48,19 @@
         <h3>Average sleep is: {{nap_avg_hrs}} hours</h3>
 
     </div>
+    <div class="container">
+        {% if eating_habits|length > 0 %}
+        <h1>Eating Habits:</h1>
+        {% for date, time, food, baby_id in eating_habits %}
+        <h2>
+            Last ate {{food}} at {{time}}
+        </h2>
+        {% endfor %}
+        {% endif %}
+    </div>
+    
+
+
     <!-- <div class="container">
         <h1>Eating Habits</h1>
         {% for date, time_of_day, food_type, baby_id in eating_habits %}
