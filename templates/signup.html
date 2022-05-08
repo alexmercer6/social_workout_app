@@ -4,15 +4,15 @@
 <section class="bg-dark p-5">
     <div class="container text-center">
         <h1 class=" text-center login-text mb-4">Sign Up</h1>
-        <form action="/signup" method="POST" class="form-control p-5 mb-5">
+        <form action="/signup" method="POST" class="form-control p-5 mb-5 max_width">
             
-            <input type="name" name="name" id="" placeholder="name" class="form-control">
+            <input type="name" name="name" id="" placeholder="name" class="form-control" required>
             <br>
-            <input type="email" name="email" id="" placeholder="email" class="form-control">
+            <input type="email" name="email" id="" placeholder="email" class="form-control" required>
             <br>
-            <input type="password" name="password" id="" placeholder="password" class="form-control">
+            <input type="password" name="password" id="" placeholder="password" class="form-control" required>
             <br>
-            <input type="password" name="check_password" id="" placeholder="check password" class="form-control">
+            <input type="password" name="check_password" id="" placeholder="check password" class="form-control" required>
             <br>
             <input type="submit" class="btn btn-large login-btn" value="Sign up">
         </form>

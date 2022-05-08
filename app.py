@@ -171,8 +171,8 @@ def sleep():
         
         eating_habits = sql_fetch('SELECT date, time_of_day, food_type, eating_habits.baby_id FROM eating_habits INNER JOIN babies ON babies.baby_id=eating_habits.baby_id WHERE eating_habits.baby_id=%s and babies.user_id=%s ORDER BY eating_habits.date, eating_habits.time_of_day DESC LIMIT 1', [param_baby_id, user_id])
         nap_time = sql_fetch('SELECT duration_mins FROM sleeping_habits WHERE baby_id=%s', [param_baby_id])
-        print(nap_time)
-        print(eating_habits)
+        nap_start_end = sql_fetch('SELECT nap_start, nap_end FROM sleeping_habits WHERE baby_id=%s ORDER BY date, nap_end DESC LIMIT 1', [param_baby_id])
+
 
     
         if len(nap_time) > 0:
@@ -180,13 +180,23 @@ def sleep():
             for nap in nap_time:
                 total += nap[0]
             nap_avg = total / len(nap_time)
-            nap_avg_hrs = str(round(nap_avg / 60, 2))
+            if nap_avg % 60 != 0:
+                nap_avg_hrs = str(round(nap_avg / 60, 2))
+                hrs_mins_list = nap_avg_hrs.split(".")
+                avg_mins = str(round((int(hrs_mins_list[1]) / 100) * 60))
+                avg_hrs = str(hrs_mins_list[0])
+                nap_avg = avg_hrs + "hr(s) " + avg_mins + "minute(s)"
+                return render_template('sleep_food.html', param_baby_id=param_baby_id, eating_habits=eating_habits, nap_avg=nap_avg, nap_start_end=nap_start_end)
+            else:
+                nap_avg = str(round(total / len(nap_time))) + "hour(s)"
+                return render_template('sleep_food.html', param_baby_id=param_baby_id, eating_habits=eating_habits, nap_avg=nap_avg, nap_start_end=nap_start_end)
+                
         else:
-            nap_avg_hrs = "No sleep recorded yet"
+            nap_avg = "No sleep recorded yet"
 
 
         
-        return render_template('sleep_food.html', param_baby_id=param_baby_id, eating_habits=eating_habits, nap_avg_hrs=nap_avg_hrs)
+        return render_template('sleep_food.html', param_baby_id=param_baby_id, eating_habits=eating_habits, nap_avg_=nap_avg, nap_start_end=nap_start_end)
     else:
         return redirect('/login')
 
@@ -202,14 +212,15 @@ def food_submit_action():
 @app.route('/sleep_submit_action', methods=["POST"])
 def sleep_submit_action():
     baby_id = request.args.get('baby_id')
-    time_of_day = request.form.get('time')
+    nap_start = request.form.get('nap_start')
+    nap_end = request.form.get('nap_end')
     hours = request.form.get('hours')
     minutes = request.form.get('minutes')
     total_minutes = (int(hours)*60) + int(minutes)
     print(total_minutes)
     date = request.form.get('sleep_date')
     
-    sql_write('INSERT INTO sleeping_habits(time_of_day, duration_mins, baby_id, date) VALUES (%s, %s, %s, %s)', [time_of_day, total_minutes, baby_id, date])
+    sql_write('INSERT INTO sleeping_habits(nap_start, nap_end, duration_mins, baby_id, date) VALUES (%s, %s, %s, %s, %s)', [nap_start, nap_end, total_minutes, baby_id, date])
 
     
     return redirect('/dashboard')

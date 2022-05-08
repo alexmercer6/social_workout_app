@@ -4,12 +4,12 @@
 <section class="bg-dark p-5">
     <div class="container text-center ">
         <h1 class=" text-center login-text">Log in</h1>
-        <form action="/login" method="POST" class="form-control bg-light p-5 my-4">
+        <form action="/login" method="POST" class="form-control bg-light p-5 my-4 max_width">
             <!-- <h2><span class=" login-text">Email:</span> </h2> -->
-            <input type="email" name="email" class="form-control" placeholder="email">
+            <input type="email" name="email" class="form-control" placeholder="email" required>
             <br>
             <!-- <h2><span class="login-text">Password:</span> </h2> -->
-            <input type="password" name="password" placeholder="password" class="form-control">
+            <input type="password" name="password" placeholder="password" class="form-control" required>
             <br>
             <input type="submit" class="btn btn-large login-btn"value="Log in">
         </form>

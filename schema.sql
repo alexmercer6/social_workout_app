@@ -45,7 +45,8 @@ CREATE TABLE completed_milestones (
 
 CREATE TABLE sleeping_habits (
     id SERIAL PRIMARY KEY,
-    time_of_day TEXT,
+    nap_start TEXT,
+    nap_end TEXT,
     date TEXT,
     duration_mins INTEGER,
     baby_id INTEGER REFERENCES babies (baby_id)

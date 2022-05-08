@@ -79,6 +79,14 @@ input:focus {
 .food-sleep {
     color: #fbdbdb;
 }
+.habits {
+    color: #abe2e2;
+}
+.max_width {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 #logout-btn {
     border: none;
