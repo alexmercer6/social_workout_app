@@ -82,6 +82,10 @@ input:focus {
 .habits {
     color: #abe2e2;
 }
+.border {
+    border: 1px solid white;
+    border-radius: 4px;
+}
 .max_width {
     max-width: 500px;
     margin-left: auto;
@@ -113,4 +117,10 @@ input:focus {
 
 #uploaded {
     width: 100px;
+}
+.toggleMilestone {
+    display: block !important;
+}
+.milestones {
+    display: none;
 }

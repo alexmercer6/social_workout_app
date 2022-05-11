@@ -116,9 +116,10 @@ def milestones():
             #will render the checkbox ticked if matches in the right table
             #unique to each baby
             all_milestones = sql_fetch('SELECT milestones.id, milestone, month_range, completed, baby_id FROM milestones LEFT JOIN completed_milestones ON milestones.id = completed_milestones.milestone_id')
+            baby_name = sql_fetch('SELECT name FROM babies WHERE baby_id = %s', [param_baby_id])
+            print(baby_name)
             
-            
-            return render_template('milestones.html', all_milestones=all_milestones,  param_baby_id=param_baby_id)
+            return render_template('milestones.html', all_milestones=all_milestones,  param_baby_id=param_baby_id, baby_name=baby_name)
         else:
             return redirect('/login')
     

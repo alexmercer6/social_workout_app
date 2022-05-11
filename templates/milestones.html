@@ -4,12 +4,25 @@
 <section class="bg-dark p-5">
 <div class="container">
 
-    <!-- <div class="row g-4"> -->
-
-    <div class="card p-5" id="month-3">
+    <div class="d-sm-flex align-items-center justify-content-between">
+        <div class="text-light text-center">
+            <h1>{{baby_name[0][0]}}'s Milestones</h1>
+            <p>The skills your child learns as they grow — like rolling over, crawling, babbling and laughing — are called developmental milestones. Here's what to expect during the first year.</p>
+        </div>
+       
+        
+    </div>
+    <div class="flex-wrap text-center">
+        <button class="btn btn-light milestone-btn">Months 0-3</button>
+        <button class="btn btn-light milestone-btn">Months 3-6</button>
+        <button class="btn btn-light milestone-btn">Months 6-9</button>
+        <button class="btn btn-light milestone-btn">Months 9-12</button>
+    </div>
+    <form action="/milestones?baby_id={{param_baby_id}}" method="POST">
+    <div class="card p-5 milestones" id="month-3">
 
         
-        <form action="/milestones?baby_id={{param_baby_id}}" method="POST">
+        
         <h1>Month 0-3</h1>
         <ul class="list-group">
         {% for id, milestone, month_range, completed, baby_id in all_milestones%}
@@ -30,11 +43,12 @@
             </div>
             {% endif %}
         {% endfor %}
-    </ul>
+        </ul>
+        <input class="btn btn-dark" type="submit" value="Save">
     </div>
     
 
-    <div class="card p-5" id="month-6">
+    <div class="card p-5 milestones" id="month-6">
 
     
     
@@ -60,11 +74,12 @@
             {% endif %}
         {% endfor %}
         </ul>
+        <input class="btn btn-dark" type="submit" value="Save">
     </div>
     
 
     
-    <div class="card p-5" id="month-9">
+    <div class="card p-5 milestones" id="month-9">
 
     
         <h1>Month 6-9</h1>
@@ -89,10 +104,11 @@
             {% endif %}
         {% endfor %}
         </ul>
+        <input class="btn btn-dark" type="submit" value="Save">
     </div>
     
     
-    <div class="card p-5" id="month-12">
+    <div class="card p-5 milestones" id="month-12">
 
     <ul class="list-group">    
     <h1>Month 9-12</h1>
@@ -116,13 +132,12 @@
         {% endif %}
     {% endfor %}
     </ul>
+    <input class="btn btn-dark" type="submit" value="Save">
 </div>
-    <input type="submit" value="Save">
+    
     </form>
     
 </div>
 </div>
 </section>
-
-
 {% endblock %}
