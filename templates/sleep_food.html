@@ -52,20 +52,26 @@
 <section class="bg-dark py-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-xs-12 bg-dark text-light p-5">
-                <h1 class="text-center habits">Sleeping Habits</h1>
+            <div class="col-md-6 col-xs-12 bg-light text-dark p-5">
+                <h1 class="text-center text-dark">Sleeping Habits</h1>
                 {% if nap_start_end|length > 0 %}
-                    <li class="habits">Last nap was {{nap_start_end[0][0]}} - {{nap_start_end[0][1]}}</li> 
-                    <li class="habits">Average sleep is: {{nap_avg}}</li>
+                <ul class="list-group">
+                    <li class=" list-group-item text-dark">Last nap was {{nap_start}} - {{nap_end}}</li> 
+                    <li class=" list-group-item text-dark">Average sleep is: {{nap_avg}}</li>
+                </ul>
+                    
                 {% endif %}
             </div>
-            <div class="col-md-6 col-xs-12 bg-dark text-light p-5">
+            <div class="col-md-6 col-xs-12 bg-light text-dark p-5">
                 {% if eating_habits|length > 0 %}
-                <h1 class="text-center habits">Eating Habits:</h1>
+                <h1 class="text-center">Eating Habits:</h1>
                 {% for date, time, food, baby_id in eating_habits %}
-                <li class="habits">
-                    Last ate {{food}} at {{time}}
-                </li>
+                <ul class="list-group">
+                    <li class=" list-group-item">
+                        Last ate {{food}} at {{last_ate}}
+                    </li>
+                </ul>
+               
                 {% endfor %}
                 {% endif %}
             </div>
