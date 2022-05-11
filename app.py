@@ -216,7 +216,7 @@ def food_submit_action():
     time_of_day = request.form.get('eat_time')
     date = request.form.get('food_date')
     sql_write('INSERT INTO eating_habits(time_of_day, food_type, baby_id, date) VALUES (%s, %s, %s, %s)', [time_of_day, food_type, baby_id, date])
-    return redirect('/dashboard')
+    return redirect(f'/sleep_food?baby_id={baby_id}')
 
 @app.route('/sleep_submit_action', methods=["POST"])
 def sleep_submit_action():
@@ -232,7 +232,7 @@ def sleep_submit_action():
     sql_write('INSERT INTO sleeping_habits(nap_start, nap_end, duration_mins, baby_id, date) VALUES (%s, %s, %s, %s, %s)', [nap_start, nap_end, total_minutes, baby_id, date])
 
     
-    return redirect('/dashboard')
+    return redirect(f'/sleep_food?baby_id={baby_id}')
 
 
 
