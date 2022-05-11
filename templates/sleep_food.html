@@ -5,56 +5,64 @@
     <div class="container">
         <div class="row text-center">
             <div class="col">
-                <h1 class="food-sleep">Sleep</h1>
-                <form action="/sleep_submit_action?baby_id={{param_baby_id}}" method="POST" class="form-control bg-dark">
-                    <h2 class="food-sleep">Date:</h2>
+                <h1 class="w text-start">Sleep</h1>
+                <form action="/sleep_submit_action?baby_id={{param_baby_id}}" method="POST" class="form-control bg-light">
+                    <p class="lead">Date</p>
                     <input type="date" name="sleep_date" class="form-control" required>
+                    <br>
                     <div class="d-flex justify-content-between">
-                        <h2 class="food-sleep">Nap Start</h2>
-                        <h2 class="food-sleep">Nap End</h2>
+                        <p class="lead">Sleep Start</p>
+                        <p class="lead">Sleep End</p>
                     </div>
                     <div class="input-group">
                         <input type="time" name="nap_start" class="form-control" required>
-                        <span class="input-group-addon">:</span>
+                        <span class="input-group-addon">  </span>
                         <input type="time" name="nap_end" class="form-control" required>
                     </div>
+                    <br>
                     
-                    <h2 class="food-sleep">Duration of sleep:</h2>
+                    <p class="lead">Duration of sleep</p>
                     <div class="input-group">
                         <input type="number" name="hours" placeholder="hours" class="form-control" required>
-                        <span class="input-group-addon">:</span>
+                        <span class="input-group-addon">  </span>
                         <input type="number" name="minutes" placeholder="minutes" class="form-control" required>
                     </div>
                     
                     <br>
-                    <input type="submit" value="submit">
+                    <input type="submit" value="Submit Sleep" class="btn background-blue">
                 </form>
             </div>
             <div class="col">
 
             
-            <h1 class="food-sleep">Food</h1>
-            <form action="/food_submit_action?baby_id={{param_baby_id}}" method="POST" class="form-control bg-dark">
-                <h2 class="food-sleep">Date:</h2>
-                <input type="date" name="food_date" class="form-control" required>
-                <h2 class="food-sleep">Time of day:</h2>
-                <input type="time" name="eat_time" class="form-control" required>
-                <h2 class="food-sleep">Food type:</h2>
-                <input type="text" name="food_type" class="form-control" placeholder="Food Type" required>
-                <br>
-                <input type="submit" value="submit">
+            <h1 class="g text-end">Food</h1>
+            <form action="/food_submit_action?baby_id={{param_baby_id}}" method="POST" class="form-control bg-light" >
+                <fieldset>
+                    <p class="lead">Date</p>
+                    <input type="date" name="food_date" class="form-control" required>
+                    <br>
+                    <p class="lead">Time of day</p>
+                    <input type="time" name="eat_time" class="form-control" required>
+                    <br>
+                    <p class="lead">Food type</p>
+                    <input type="text" name="food_type" class="form-control" placeholder="Food Type" required>
+                    <br>
+                    <input type="submit" value="Submit Food" class="btn background-pink">
+                </fieldset>
+                
             </form>
         </div>
         </div>
         
     </div>
 </section>
-<section class="bg-dark py-5">
+<section class="bg-light py-5">
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-xs-12 bg-light text-dark p-5">
-                <h1 class="text-center text-dark">Sleeping Habits</h1>
                 {% if nap_start_end|length > 0 %}
+                <h1 class="text-center w">Sleeping Habits</h1>
+                
                 <ul class="list-group">
                     <li class=" list-group-item text-dark">Last nap was {{nap_start}} - {{nap_end}}</li> 
                     <li class=" list-group-item text-dark">Average sleep is: {{nap_avg}}</li>
@@ -64,7 +72,7 @@
             </div>
             <div class="col-md-6 col-xs-12 bg-light text-dark p-5">
                 {% if eating_habits|length > 0 %}
-                <h1 class="text-center">Eating Habits:</h1>
+                <h1 class="text-center g">Eating Habits</h1>
                 {% for date, time, food, baby_id in eating_habits %}
                 <ul class="list-group">
                     <li class=" list-group-item">

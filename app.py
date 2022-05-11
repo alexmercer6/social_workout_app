@@ -175,14 +175,17 @@ def sleep():
         nap_time = sql_fetch('SELECT duration_mins FROM sleeping_habits WHERE baby_id=%s', [param_baby_id])
         nap_start_end = sql_fetch('SELECT nap_start, nap_end FROM sleeping_habits WHERE baby_id=%s ORDER BY date DESC, nap_end DESC LIMIT 1', [param_baby_id])
         
-        nap_start = datetime.strptime(nap_start_end[0][0], "%H:%M")
-        nap_start = nap_start.strftime("%I:%M %p")
+        if len(nap_start_end) > 0:
+            nap_start = datetime.strptime(nap_start_end[0][0], "%H:%M")
+            nap_start = nap_start.strftime("%I:%M %p")
 
-        nap_end = datetime.strptime(nap_start_end[0][1], "%H:%M")
-        nap_end =nap_end.strftime("%I:%M %p")
-
-        last_ate = datetime.strptime(eating_habits[0][1], "%H:%M")
-        last_ate = last_ate.strftime("%I:%M %p")
+            nap_end = datetime.strptime(nap_start_end[0][1], "%H:%M")
+            nap_end =nap_end.strftime("%I:%M %p")
+        if len(eating_habits) > 0:
+            last_ate = datetime.strptime(eating_habits[0][1], "%H:%M")
+            last_ate = last_ate.strftime("%I:%M %p")
+        else:
+            last_ate = ''
        
         if len(nap_time) > 0:
             total = 0
@@ -197,7 +200,7 @@ def sleep():
                 nap_avg = avg_hrs + "hr(s) " + avg_mins + "minute(s)"
                 return render_template('sleep_food.html', param_baby_id=param_baby_id, eating_habits=eating_habits, nap_avg=nap_avg, nap_start_end=nap_start_end, nap_start=nap_start, nap_end=nap_end, last_ate=last_ate)
             else:
-                nap_avg = str(round(total / len(nap_time))) + "hour(s)"
+                nap_avg = str(round((total / len(nap_time)) / 60)) + " hour(s)"
                 return render_template('sleep_food.html', param_baby_id=param_baby_id, eating_habits=eating_habits, nap_avg=nap_avg, nap_start_end=nap_start_end, nap_start=nap_start, nap_end=nap_end, last_ate=last_ate)
                 
         else:

@@ -124,3 +124,11 @@ input:focus {
 .milestones {
     display: none;
 }
+
+.background-pink {
+    background-color: #f3849b;
+}
+
+.background-blue {
+    background-color: #38bbc2;
+}
