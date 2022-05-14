@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="bg-dark p-5 text-light">
+    <div class="container">
+        {% for baby_id, name, birthday, height, weight in baby %}
+        <h1>{{name}}</h1>
+        <h3>Birthday: {{birthday}}</h3>
+        {% if height == None %}
+        <form action="/growth" method="POST">
+            <input type="text" placeholder="Height">
+            <input type="submit" value="Add Height">
+        </form>
+        {% else %}
+        <h3>Height: {{height}}</h3>
+        {% endif  %}
+
+        {% if weight == None %}
+        <form action="/growth" method="POST">
+            <input type="text" placeholder="Weight">
+            <input type="submit" value="Add Weight">
+        </form>
+        {% else %}
+        <h3>Weight: {{weight}}</h3>
+        {% endif  %}
+        {% endfor%}
+    </div>
+</section>
+
+{% endblock %}

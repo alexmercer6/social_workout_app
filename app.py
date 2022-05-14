@@ -104,6 +104,16 @@ def dashboard():
     else:
         return redirect('/login')
 
+
+@app.route('/growth', methods=['GET', 'POST'])
+def growth():
+    if request.method == 'GET':
+        param_baby_id = request.args.get('baby_id')
+        baby = sql_fetch('SELECT baby_id, name, birth_date, height, weight FROM babies WHERE baby_id=%s', [param_baby_id])
+       
+        return render_template('growth.html', baby=baby )
+
+
 @app.route('/milestones', methods=['GET', 'POST'])
 def milestones():
     param_baby_id = int(request.args.get('baby_id'))
@@ -181,6 +191,9 @@ def sleep():
 
             nap_end = datetime.strptime(nap_start_end[0][1], "%H:%M")
             nap_end =nap_end.strftime("%I:%M %p")
+        else:
+            nap_start = ''
+            nap_end =''
         if len(eating_habits) > 0:
             last_ate = datetime.strptime(eating_habits[0][1], "%H:%M")
             last_ate = last_ate.strftime("%I:%M %p")
