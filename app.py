@@ -107,11 +107,27 @@ def dashboard():
 
 @app.route('/growth', methods=['GET', 'POST'])
 def growth():
-    if request.method == 'GET':
+    if session.get('logged_in'):
         param_baby_id = request.args.get('baby_id')
-        baby = sql_fetch('SELECT baby_id, name, birth_date, height, weight FROM babies WHERE baby_id=%s', [param_baby_id])
-       
-        return render_template('growth.html', baby=baby )
+        user_id= session['id']
+        if request.method == 'GET':
+            
+            baby = sql_fetch('SELECT baby_id, name, birth_date, height, weight FROM babies WHERE baby_id=%s', [param_baby_id])
+        
+            return render_template('growth.html', baby=baby )
+        if request.method == 'POST':
+            height = request.form.get('height')
+            weight = request.form.get('weight')
+            
+            if height != None:
+                sql_write('UPDATE babies SET height=%s WHERE baby_id=%s and user_id=%s', [height, param_baby_id, user_id])
+                return redirect(f'/growth?baby_id={param_baby_id}')
+            
+            if weight != None:
+                sql_write('UPDATE babies SET weight = %s WHERE baby_id=%s and user_id=%s', [weight, param_baby_id, user_id])
+                return redirect(f'/growth?baby_id={param_baby_id}')
+    else:
+        return redirect('login')
 
 
 @app.route('/milestones', methods=['GET', 'POST'])

@@ -7,21 +7,21 @@
         <h1>{{name}}</h1>
         <h3>Birthday: {{birthday}}</h3>
         {% if height == None %}
-        <form action="/growth" method="POST">
-            <input type="text" placeholder="Height">
+        <form action="/growth?baby_id={{baby_id}}" method="POST">
+            <input type="number" name="height" placeholder="Height in cms">
             <input type="submit" value="Add Height">
         </form>
         {% else %}
-        <h3>Height: {{height}}</h3>
+        <h3>Height: {{height}}cm</h3>
         {% endif  %}
 
         {% if weight == None %}
-        <form action="/growth" method="POST">
-            <input type="text" placeholder="Weight">
+        <form action="/growth?baby_id={{baby_id}}" method="POST">
+            <input type="float" name="weight" placeholder="Weight in kgs">
             <input type="submit" value="Add Weight">
         </form>
         {% else %}
-        <h3>Weight: {{weight}}</h3>
+        <h3>Weight: {{weight}}kgs</h3>
         {% endif  %}
         {% endfor%}
     </div>

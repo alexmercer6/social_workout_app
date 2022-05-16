@@ -22,7 +22,7 @@ CREATE TABLE babies (
     name TEXT,
     birth_date TEXT,
     weight FLOAT,
-    height FLOAT,
+    height INTEGER,
     profile_picture TEXT,
     user_id INTEGER REFERENCES users (user_id)
     
