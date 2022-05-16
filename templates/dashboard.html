@@ -12,7 +12,8 @@
                     <img src="{{profile_picture}}" class="card-img-top profile-pic" alt="profile picture">
                     <div class="card-body text-center">
                         <h5>{{name}}</h5>
-                        <h5>{{age_year}} yr(s) and {{age_month}} month(s)</h5>
+                        {% set age = get_age(birthday) %}
+                        <h5>{{age[0]}} yr(s) and {{age[1]}} month(s)</h5>
                         <a href="/growth?baby_id={{id}}" class="my-2 btn btn-light">{{name}}'s Growth</a>
                         <a href="/milestones?baby_id={{id}}" class="my-2 btn btn-light">Milestones</a>
                         <a href="/sleep_food?baby_id={{id}}" class="my-2 btn btn-light">Sleep/Food Tracker</a>

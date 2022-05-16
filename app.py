@@ -7,6 +7,7 @@ from sql_functions import sql_fetch, sql_write
 import boto3
 from werkzeug.utils import secure_filename
 from datetime import datetime, date
+from get_age import get_age
 
 
 S3_URL = 'https://growappbucket.s3.ap-southeast-2.amazonaws.com/'
@@ -99,21 +100,23 @@ def dashboard():
         user_id = session['id']
         #shows only the logged in user's babies
         baby = sql_fetch('SELECT baby_id, name, birth_date, profile_picture, user_id FROM babies WHERE user_id = %s', [user_id])
-        
-        birthdate = baby[0][2].split('/')
-        birthdate.reverse()
-        birthdate = list(map(int, birthdate))
-        birthdate = date(birthdate[0], birthdate[1], birthdate[2])
-        print(birthdate)
-        today = date.today()
-        age_year = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
-        age_month = today.month - birthdate.month
-        if age_month < 0:
-            age_month = 12 + age_month
-        print(age_month)
-        print(age_year)
+        print(baby)
 
-        return render_template('dashboard.html', baby=baby, age_year=age_year, age_month=age_month)
+        #NEED TO CHANGE TO WORK FOR INDIVIDUAL BABIES
+        # birthdate = baby[0][2].split('/')
+        # birthdate.reverse()
+        # birthdate = list(map(int, birthdate))
+        # birthdate = date(birthdate[0], birthdate[1], birthdate[2])
+        # print(birthdate)
+        # today = date.today()
+        # age_year = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+        # age_month = today.month - birthdate.month
+        # if age_month < 0:
+        #     age_month = 12 + age_month
+        # print(age_month)
+        # print(age_year)
+
+        return render_template('dashboard.html', baby=baby, get_age=get_age)
     else:
         return redirect('/login')
 
