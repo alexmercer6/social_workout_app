@@ -13,6 +13,11 @@
         </form>
         {% else %}
         <h3>Height: {{height}}cm</h3>
+        <button class="edit-btn">Edit</button>
+        <form action="/growth?baby_id={{baby_id}}" method="POST" class="hide-form height-form">
+            <input type="number" name="height" placeholder="Height in cms">
+            <input type="submit" value="Add Height">
+        </form>
         {% endif  %}
 
         {% if weight == None %}
@@ -22,9 +27,14 @@
         </form>
         {% else %}
         <h3>Weight: {{weight}}kgs</h3>
+        <button class="edit-btn">Edit</button>
+        <form action="/growth?baby_id={{baby_id}}" method="POST" class="hide-form weight-form">
+            <input type="float" name="weight" placeholder="Weight in kgs">
+            <input type="submit" value="Add Weight">
+        </form>
         {% endif  %}
         {% endfor%}
     </div>
 </section>
-
+<script src="static/growth.js"></script>
 {% endblock %}

@@ -92,6 +92,13 @@ input:focus {
     margin-right: auto;
 }
 
+.hide-form {
+    display: none;
+}
+.show-form {
+    display: block;
+}
+
 #logout-btn {
     border: none;
     background: none;
