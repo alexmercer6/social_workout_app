@@ -15,6 +15,7 @@
                         {% set age = get_age(birthday) %}
                         <h5>{{age[0]}} yr(s) and {{age[1]}} month(s)</h5>
                         <a href="/growth?baby_id={{id}}" class="my-2 btn btn-light">{{name}}'s Growth</a>
+                        <br>
                         <a href="/milestones?baby_id={{id}}" class="my-2 btn btn-light">Milestones</a>
                         <a href="/sleep_food?baby_id={{id}}" class="my-2 btn btn-light">Sleep/Food Tracker</a>
                         <a href="/upload_profile_picture?baby_id={{id}}" class="my-2 btn btn-light">Change Profile Picture</a>

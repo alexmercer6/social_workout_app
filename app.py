@@ -1,5 +1,5 @@
 
-from flask import Flask, request, render_template, session, redirect, url_for
+from flask import Flask, request, render_template, session, redirect
 import bcrypt
 import os
 import psycopg2
@@ -8,6 +8,7 @@ import boto3
 from werkzeug.utils import secure_filename
 from datetime import datetime, date
 from get_age import get_age
+from sleep import format_sleep_time
 
 
 S3_URL = 'https://growappbucket.s3.ap-southeast-2.amazonaws.com/'
@@ -54,6 +55,9 @@ def login():
                 session['logged_in'] = True
                 session['user'] = name
                 session['id'] = user_id
+            else:
+                incorrect_input = True
+                return render_template('login.html', incorrect_input=incorrect_input)
 
         return redirect('/')
 
@@ -80,11 +84,21 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
         check_password = request.form.get('check_password')
+        emails = sql_fetch('SELECT email FROM users')
+        for db_email in emails:
+            if email == db_email[0]:
+                email_already_used = True
+                return render_template('signup.html', email_already_used=email_already_used)
+
+        if password != check_password:
+            no_match = True
+            return render_template('signup.html', no_match=no_match)
+
 
         if len(name) > 0 and len(email) > 0 and len(password) > 0 and password == check_password:
             #hash the user password for security
             password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-            print(password)
+            
             #insert new users info into the database
             sql_write('INSERT INTO users (name, email, password_hash) VALUES (%s, %s, %s)', [name, email, password_hash])
             return redirect('/login')
@@ -101,20 +115,6 @@ def dashboard():
         #shows only the logged in user's babies
         baby = sql_fetch('SELECT baby_id, name, birth_date, profile_picture, user_id FROM babies WHERE user_id = %s', [user_id])
         print(baby)
-
-        #NEED TO CHANGE TO WORK FOR INDIVIDUAL BABIES
-        # birthdate = baby[0][2].split('/')
-        # birthdate.reverse()
-        # birthdate = list(map(int, birthdate))
-        # birthdate = date(birthdate[0], birthdate[1], birthdate[2])
-        # print(birthdate)
-        # today = date.today()
-        # age_year = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
-        # age_month = today.month - birthdate.month
-        # if age_month < 0:
-        #     age_month = 12 + age_month
-        # print(age_month)
-        # print(age_year)
 
         return render_template('dashboard.html', baby=baby, get_age=get_age)
     else:
@@ -178,16 +178,6 @@ def milestones():
             return redirect('/dashboard')
             
 
-# @app.route('/update_database_action', methods=['POST'])
-# def update_database_action():
-#     completed_checklist = request.form.getlist('check_box')
-#     print(completed_checklist)
-#     #how to access baby idea hmmm
-#     for id in completed_checklist:
-#         sql_write('INSERT INTO milestones_completed (completed, milestone_id, baby_id) VALUES (%s, %s, %s, )', ['True', id,  ])
-    
-#     return redirect('/milestones')
-
 
 @app.route('/add_baby', methods=['GET', 'POST'])
 def add_baby():
@@ -217,15 +207,9 @@ def sleep():
         nap_time = sql_fetch('SELECT duration_mins FROM sleeping_habits WHERE baby_id=%s', [param_baby_id])
         nap_start_end = sql_fetch('SELECT nap_start, nap_end FROM sleeping_habits WHERE baby_id=%s ORDER BY date DESC, nap_end DESC LIMIT 1', [param_baby_id])
         
-        if len(nap_start_end) > 0:
-            nap_start = datetime.strptime(nap_start_end[0][0], "%H:%M")
-            nap_start = nap_start.strftime("%I:%M %p")
+        nap_start, nap_end = format_sleep_time(nap_start_end)
 
-            nap_end = datetime.strptime(nap_start_end[0][1], "%H:%M")
-            nap_end =nap_end.strftime("%I:%M %p")
-        else:
-            nap_start = ''
-            nap_end =''
+
         if len(eating_habits) > 0:
             last_ate = datetime.strptime(eating_habits[0][1], "%H:%M")
             last_ate = last_ate.strftime("%I:%M %p")
@@ -296,8 +280,6 @@ def upload():
             #gets the image from form input
             uploaded_image = request.files['image']
             #saves the uploaded image to static folder
-            # uploaded_image.save(UPLOAD_FOLDER + uploaded_image.filename)
-            # UPLOAD_FOLDER + 
             # access the aws s3 storage bucket
             s3_client = boto3.client('s3', aws_access_key_id = AWS_ACCESS_KEY, aws_secret_access_key = AWS_SECRET_ACCESS_KEY)
             BUCKET_NAME = 'growappbucket'

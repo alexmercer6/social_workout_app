@@ -5,6 +5,9 @@
     <div class="container text-center ">
         <h1 class=" text-center login-text">Log in</h1>
         <form action="/login" method="POST" class="form-control bg-light p-5 my-4 max_width">
+            {% if incorrect_input %}
+            <p>Incorrect email or password!</p>
+            {% endif %}
             <!-- <h2><span class=" login-text">Email:</span> </h2> -->
             <input type="email" name="email" class="form-control" placeholder="email" required>
             <br>

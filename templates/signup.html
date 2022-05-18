@@ -5,7 +5,12 @@
     <div class="container text-center">
         <h1 class=" text-center login-text mb-4">Sign Up</h1>
         <form action="/signup" method="POST" class="form-control p-5 mb-5 max_width">
-            
+            {%if email_already_used %}
+            <p>Email already taken!</p>
+            {% endif %}
+            {%if no_match %}
+            <p>Passwords do not match!</p>
+            {% endif %}
             <input type="name" name="name" id="" placeholder="name" class="form-control" required>
             <br>
             <input type="email" name="email" id="" placeholder="email" class="form-control" required>
