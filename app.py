@@ -50,16 +50,19 @@ def login():
         for user_id, name, email, password_hash in results:
             #checks if paassword matches the hashed_password
             password_valid = bcrypt.checkpw(user_password.encode(), password_hash.encode())
+            print(password_valid)
             #logs in and sets session data
             if user_email == email and password_valid:
                 session['logged_in'] = True
                 session['user'] = name
                 session['id'] = user_id
+                return redirect('/')
             else:
                 incorrect_input = True
-                return render_template('login.html', incorrect_input=incorrect_input)
+        
+        return render_template('login.html', incorrect_input=incorrect_input)
 
-        return redirect('/')
+        
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
